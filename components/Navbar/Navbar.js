@@ -3,7 +3,7 @@ import { HamburgerMenu } from './Hamburger/Hamburger';
 import { ShoppingCart } from './ShoppingCart/ShoppingCart';
 import Link from 'next/link';
 
-const Navbar = ({ textColor }) => {
+export default function Navbar({ textColor }) {
 
     return (
         <Box 
@@ -31,5 +31,3 @@ const Navbar = ({ textColor }) => {
         </Box>
     );
 };
-
-export default Navbar;

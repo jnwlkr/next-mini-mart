@@ -2,7 +2,7 @@ import { Navbar } from '../components';
 import { useRouter } from 'next/router'
 import { Box, Text, SlideFade, useDisclosure, Button, VStack } from '@chakra-ui/react';
 
-const Home = () => {
+export default function Home() {
     const { isOpen } = useDisclosure();
     const router = useRouter();
 
@@ -66,5 +66,3 @@ const Home = () => {
         </Box>
     );
 };
-
-export default Home;
