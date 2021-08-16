@@ -1,12 +1,10 @@
 import { Box } from '@chakra-ui/react';
 
-const Product = () => {
+export default function Product({ name, price }) {
 
     return (
         <Box>
-
+            {name} : {price.formatted_with_symbol}
         </Box>
     );
 };
-
-export default Product;

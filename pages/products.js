@@ -1,8 +1,19 @@
 import { Box, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
-import { Navbar } from '../components';
+import { Navbar, ProductList } from '../components';
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import commerce from '../lib/commerce';
 
-const Products = () => {
+export async function getStaticProps() {
+    const { data: products } = await commerce.products.list();
+
+    return {
+        props: {
+            products,
+        },
+    };
+}
+
+export default function Products({ products }) {
 
     return (
         <>
@@ -32,10 +43,8 @@ const Products = () => {
                     </MenuList>
                 </Menu>
             </Box>
-        
+            <ProductList products={products} />
         </Box>
         </>
     );
 };
-
-export default Products;
