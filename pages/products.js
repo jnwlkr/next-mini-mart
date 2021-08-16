@@ -18,14 +18,14 @@ export default function Products({ products }) {
     return (
         <>
         <Navbar textColor='black' />
-        <Box mx={5} mt={1}>
+        <Box mx={5} mt={5}>
             <Box
                 w='100%'
                 display='flex'
                 flexWrap='wrap'
                 alignItems='center'
                 justifyContent='space-between'
-                p={5}
+                px={5}
             >
                 <Box>
                     <Text fontSize='2xl' fontWeight={600}>Products</Text>
