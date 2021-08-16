@@ -1,4 +1,4 @@
-import { Box, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
+import { Box, Menu, MenuButton, MenuList, MenuItem, Button, Text } from '@chakra-ui/react';
 import { Navbar, ProductList } from '../components';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import commerce from '../lib/commerce';
@@ -22,10 +22,15 @@ export default function Products({ products }) {
             <Box
                 w='100%'
                 display='flex'
+                flexWrap='wrap'
                 alignItems='center'
-                justifyContent='flex-end'
+                justifyContent='space-between'
                 p={5}
             >
+                <Box>
+                    <Text fontSize='2xl' fontWeight={600}>Products</Text>
+                    <Text fontSize='sm'>{products.length} items</Text>
+                </Box>
                 <Menu>
                     <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
                         Sort by

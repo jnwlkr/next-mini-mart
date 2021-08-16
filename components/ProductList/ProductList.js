@@ -1,20 +1,20 @@
-import Link from 'next/link'
 import { Product } from '../../components';
+import { Box } from '@chakra-ui/react';
 
 export default function ProductList({ products }) {
     if (!products) return null;
 
     return (
-        <ul>
+        <Box 
+            display='flex' 
+            flexWrap='wrap'
+            justifyContent='center'
+        >
             {products.map((product) => (
-                <li key={product.permalink}>
-                    <Link href={`/products/${product.permalink}`}>
-                        <a>
-                            <Product {...product} />
-                        </a>
-                    </Link>
-                </li>
+                <Box key={product.permalink}>
+                    <Product {...product} />
+                </Box>
             ))}
-        </ul>
+        </Box>
     );
 };
