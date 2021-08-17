@@ -2,8 +2,15 @@ import { Box, Text, Button } from '@chakra-ui/react';
 import Image from 'next/image'
 import Link from 'next/link'
 import { MdShoppingCart } from 'react-icons/md';
+import { useCartDispatch } from '../../context/cart';
+import commerce from '../../lib/commerce';
 
-export default function Product({ name, price, media, permalink }) {
+export default function Product({ name, price, media, permalink, id }) {
+    const { setCart } = useCartDispatch()
+
+    const addToCart = () => {
+        commerce.cart.add(id).then(({cart}) => setCart(cart));
+    }
 
     return (
         <Box overflow='hidden' m={3} p={5} borderRadius='md'>
@@ -15,6 +22,7 @@ export default function Product({ name, price, media, permalink }) {
                 <Button
                     isFullWidth
                     leftIcon={<MdShoppingCart/>}
+                    onClick={addToCart}
                 >
                     Add to Cart
                 </Button>
