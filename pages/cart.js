@@ -41,21 +41,29 @@ export default function CartPage() {
 
     const isEmpty = line_items.length === 0;
 
-    if (isEmpty) return <Box>Your cart is empty</Box>;
-
     return (
         <>
         <Navbar textColor='black' />
         <Box>
+            {/* Header */}
             Cart 
-            {line_items.map((item) => (
-                <CartItem key={item.id} {...item} />
-            ))}
-            <hr />
-            <Box>
-                Subtotal: {subtotal.formatted_with_symbol}
-            </Box>
 
+            {isEmpty ? (
+                // Empty cart view
+                <Box>Your cart is empty</Box>
+            ) : (
+                // Items in cart view
+                <>
+                    {line_items.map((item) => (
+                        <CartItem key={item.id} {...item} />
+                    ))}
+                    <hr />
+                    <Box>
+                        Subtotal: {subtotal.formatted_with_symbol}
+                    </Box> 
+                </>
+            )}
+            
         </Box>
         </>
     );
