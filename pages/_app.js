@@ -1,12 +1,13 @@
 import '../styles/globals.css'
 import { ChakraProvider } from '@chakra-ui/react'
+import { CartProvider } from '../context/cart';
 
-function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <CartProvider>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </CartProvider>
   )
 }
-
-export default MyApp
