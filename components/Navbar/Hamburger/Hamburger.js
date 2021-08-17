@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 
-export const HamburgerMenu = ({ textColor}) => {
+export default function HamburgerMenu({ textColor }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef();
 
@@ -70,5 +70,5 @@ export const HamburgerMenu = ({ textColor}) => {
                 </DrawerContent>
             </Drawer>
         </>
-    )
-}
+    );
+};

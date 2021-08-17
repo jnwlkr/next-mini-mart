@@ -1,6 +1,6 @@
 import { Box, Text } from '@chakra-ui/react';
-import { HamburgerMenu } from './Hamburger/Hamburger';
-import { ShoppingCart } from './ShoppingCart/ShoppingCart';
+import HamburgerMenu from './Hamburger/Hamburger';
+import ShoppingCart from './ShoppingCart/ShoppingCart';
 import Link from 'next/link';
 
 export default function Navbar({ textColor }) {

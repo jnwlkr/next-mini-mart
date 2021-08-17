@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
 
 
-export const ShoppingCart = ({ textColor }) => {
+export default function ShoppingCart({ textColor }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef();
 
