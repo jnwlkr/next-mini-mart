@@ -1,5 +1,8 @@
 import { MdShoppingCart } from 'react-icons/md';
 import { useRef } from 'react';
+import { useCartState } from '../../../context/cart';
+import Link from 'next/link';
+import CartItem from './CartItem';
 import {
     IconButton,
     useDisclosure, 
@@ -11,15 +14,31 @@ import {
     DrawerCloseButton, 
     List,
     ListItem,
+    Box,
+    Button,
+    Text,
+    Divider,
+    Badge,
 } from '@chakra-ui/react';
 
+function EmptyCart() {
+    return (
+        <Box display='flex' justifyContent='center'>
+            Your cart is empty!
+        </Box>
+    )
+}
 
 export default function ShoppingCart({ textColor }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const { line_items, subtotal } = useCartState();
     const btnRef = useRef();
+
+    const isEmpty = line_items.length === 0;
 
     return (
         <>
+        <Box>
             <IconButton 
                 icon={<MdShoppingCart />}  
                 variant='ghost'
@@ -31,7 +50,27 @@ export default function ShoppingCart({ textColor }) {
                 _hover={{ background: 'transparent' }}
                 _focus={{ background: 'transparent' }}
                 _active={{ opacity: '0.5' }}
+                zIndex={1}
+                pos='relative'
             />
+            {!isEmpty ? 
+                <Box 
+                    display='flex' 
+                    justifyContent='center' 
+                    alignItems='center' 
+                    w='21px' 
+                    h='21px' 
+                    bgColor='blackAlpha.400' 
+                    zIndex={2} 
+                    pos='absolute' 
+                    right='3' 
+                    top='1' 
+                    fontSize='xs'  
+                    borderRadius='20px'
+                >
+                    {line_items.length}
+                </Box> : <></>}
+            </Box>
             <Drawer
                 isOpen={isOpen}
                 placement='right'
@@ -45,21 +84,33 @@ export default function ShoppingCart({ textColor }) {
                         _active={{ opacity: '0.4' }}
                     />
                     <DrawerHeader>Shopping Cart</DrawerHeader>
+                    <Divider />
                     <DrawerBody>
-                        <List spacing={4}>
-                            <ListItem>
-                                CartItem component TODO
-                            </ListItem>
-                            <ListItem>
-                                Subtotal
-                            </ListItem>
-                            <ListItem>
-                                Go to cart button
-                            </ListItem>
-                            <ListItem>
-                                Checkout button
-                            </ListItem>
-                        </List>
+                        {isEmpty ? (
+                            <EmptyCart />
+                        ) : (
+                            <List spacing={5} mt={3}>
+                                {line_items.map((item) => (
+                                    <>
+                                    <ListItem key={item.id} pb={2}>
+                                        <CartItem key={item.id} {...item} />
+                                    </ListItem>
+                                    </>
+                                ))}
+                                <Divider />
+                                <ListItem display='flex' justifyContent='space-between'>
+                                    <Text fontWeight={600}>Subtotal:</Text> <Text>{subtotal.formatted_with_symbol}</Text>
+                                </ListItem>
+                                <ListItem>
+                                    <Link href='/cart'>
+                                        <a>
+                                            <Button isFullWidth>Review cart</Button>
+                                        </a>
+                                    </Link>
+                                </ListItem>
+                            </List>
+                            
+                        )}
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
