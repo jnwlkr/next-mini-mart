@@ -49,7 +49,6 @@ export default function ShoppingCart({ textColor }) {
                 _hover={{ background: 'transparent' }}
                 _focus={{ background: 'transparent' }}
                 _active={{ opacity: '0.5' }}
-                zIndex={1}
                 pos='relative'
             />
             {!isEmpty ? 
@@ -59,8 +58,9 @@ export default function ShoppingCart({ textColor }) {
                     alignItems='center' 
                     w='21px' 
                     h='21px' 
-                    bgColor='blackAlpha.400' 
-                    zIndex={2} 
+                    bgColor='blackAlpha.600' 
+                    color='white'
+                    fontWeight={600} 
                     pos='absolute' 
                     right='3' 
                     top='1' 
@@ -108,7 +108,6 @@ export default function ShoppingCart({ textColor }) {
                                     </Link>
                                 </ListItem>
                             </List>
-                            
                         )}
                     </DrawerBody>
                 </DrawerContent>
