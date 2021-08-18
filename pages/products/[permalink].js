@@ -69,7 +69,7 @@ export default function ProductPage({ product }) {
                     </BreadcrumbItem>
                 </Breadcrumb>
             </Box>
-            <Box display='flex' flexWrap='wrap' justifyContent='space-around' mx={5}>
+            <Box display='flex' flexWrap='wrap' justifyContent='space-around' mx={5} mb={5}>
                 <Box display='flex' alignItems='center' justifyContent='center' p={{base: 0, md: 5}} maxWidth={{ base: '100%', md: '50%'}}>
                     <Image width={500} height={500} src={product.media.source} alt='product image' />
                 </Box>
