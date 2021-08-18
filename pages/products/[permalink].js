@@ -40,7 +40,7 @@ export default function ProductPage({ product }) {
     const addToCart = () => {
         commerce.cart.add(product.id).then(({cart}) => setCart(cart));
         toast({
-            description: `${name} was added to your cart`,
+            description: `${product.name} was added to your cart`,
             status: 'success',
             duration: 3000,
             isClosable: true,
