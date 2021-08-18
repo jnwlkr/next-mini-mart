@@ -68,17 +68,17 @@ export default function ProductPage({ product }) {
                     </BreadcrumbItem>
                 </Breadcrumb>
             </Box>
-            <Box display='flex' flexWrap='wrap' mx={10} mt={5}>
-                <Box display='flex' alignItems='center' justifyContent='center' minWidth={{ base: '100%', md: '50%'}}>
+            <Box display='flex' flexWrap='wrap' justifyContent='space-around' mx={10} mt={5}>
+                <Box display='flex' alignItems='center' justifyContent='center' maxWidth={{ base: '100%', md: '50%'}}>
                     <Image width={400} height={400} src={product.media.source} alt='product image' />
                 </Box>
-                <Box display='flex' flexDirection='column' minWidth={{ base: '100%', md: '50%'}}>
-                    <Box w='100%' display='flex' justifyContent='space-between' alignItems='center'>
+                <Box display='flex' flexDirection='row' flexWrap='wrap' alignContent='flex-start' maxWidth={{ base: '100%', md: '50%'}}>
+                    <Box w='100%' display='flex' flexWrap='wrap' justifyContent='space-between' alignItems='center'>
                         <Text fontSize='3xl' fontWeight={300}>{product.name}</Text>
                         <Text fontSize='xl' fontWeight={600}>{product.price.formatted_with_symbol}</Text>
                     </Box>
                     <Divider />
-                    <Box my={10}>
+                    <Box my={10} display='flex'>
                         <Text fontSize='sm' fontWeight={300} dangerouslySetInnerHTML={{ __html: product.description }} />
                     </Box>
                     <Button isFullWidth onClick={addToCart}>Add to Cart</Button>
