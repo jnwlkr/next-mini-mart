@@ -81,7 +81,7 @@ export default function ProductPage({ product }) {
                     <Divider />
                     <Box display='flex' flexWrap='wrap' mb={5} width='100%'>
                         <Text fontSize='sm' my={5} fontWeight={300} dangerouslySetInnerHTML={{ __html: product.description }} />
-                        <Box display='flex' fontWeight={400} fontSize='sm' p={5} flexDirection='column' justifyContent='space-between' borderRadius='10px' bgColor='gray.100' width='100%' height='130px'>
+                        <Box display='flex' fontWeight={400} fontSize='sm' p={5} flexDirection='column' justifyContent='space-between' borderRadius='10px' border='1px' borderColor='blackAlpha.50'  boxShadow='md' width='100%' height='130px'>
                             <Box>
                                 <Icon mr={2} w={7} h={7} as={MdCheckCircle} color='green.400' /> In stock
                             </Box>
@@ -89,7 +89,7 @@ export default function ProductPage({ product }) {
                                 <Icon mr={2} w={7} h={7} as={MdLocalShipping} /> Available for shipping
                             </Box>
                             <Box>
-                                <Icon mr={2} w={7} h={7} as={MdMood} /> 125% Satisfaction Guarantee
+                                <Icon mr={2} w={7} h={7} as={MdMood} color='purple.400' /> 125% Satisfaction Guarantee
                             </Box>
                         </Box>
                     </Box>
