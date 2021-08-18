@@ -12,7 +12,7 @@ import {
     DrawerCloseButton, 
     List,
     ListItem,
-    ListIcon
+    ListIcon,
 } from '@chakra-ui/react';
 
 
@@ -35,6 +35,8 @@ export default function HamburgerMenu({ textColor }) {
                 style={{ color: `${textColor}`}}
             />
             <Drawer
+                preserveScrollBarGap
+                motionPreset='slideInRight'
                 isOpen={isOpen}
                 placement='left'
                 onClose={onClose}
