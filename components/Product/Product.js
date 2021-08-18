@@ -20,7 +20,7 @@ export default function Product({ name, price, media, permalink, id }) {
     };
 
     return (
-        <Box overflow='hidden' m={3} p={5} borderRadius='md'>
+        <Box overflow='hidden' m={5}  borderRadius='md'>
             <Link href={`/products/${permalink}`}>
                 <a>
             <Image src={media.source} alt='Product image' width={275} height={275} />
