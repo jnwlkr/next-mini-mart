@@ -27,7 +27,7 @@ export default function Products({ products }) {
                 flexWrap='wrap'
                 alignItems='center'
                 justifyContent='space-between'
-                px={5}
+                px={10}
             >
                 <Box>
                     <Text fontSize='2xl' fontWeight={600}>Products</Text>
