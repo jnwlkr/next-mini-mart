@@ -18,7 +18,6 @@ import {
     Button,
     Text,
     Divider,
-    Badge,
 } from '@chakra-ui/react';
 
 function EmptyCart() {
