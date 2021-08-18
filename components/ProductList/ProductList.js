@@ -26,7 +26,6 @@ export default function ProductList({ products, sort }) {
             display='flex' 
             flexWrap='wrap'
             justifyContent='center'
-            mb={5}
         >
             {products.map((product) => (
                 <Box key={product.permalink}>

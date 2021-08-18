@@ -51,7 +51,7 @@ export default function ProductPage({ product }) {
     return (
         <>
             <Navbar textColor='black' />
-            <Box display='flex' alignItems='center' m={5} w='100%' fontSize='sm'>
+            <Box display='flex' alignItems='center' p={5} w='100%' fontSize='sm'>
                 <Breadcrumb fontWeight={300} separator={<ChevronRightIcon color='gray.500' />}>
                     <BreadcrumbItem color='gray.500'>
                         <Link href='/products'>
