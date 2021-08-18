@@ -71,7 +71,6 @@ export default function ShoppingCart({ textColor }) {
                 </Box> : <></>}
             </Box>
             <Drawer
-                preserveScrollBarGap
                 motionPreset='scale'
                 isOpen={isOpen}
                 placement='right'

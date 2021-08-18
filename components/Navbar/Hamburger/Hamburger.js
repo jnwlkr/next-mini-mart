@@ -35,8 +35,7 @@ export default function HamburgerMenu({ textColor }) {
                 style={{ color: `${textColor}`}}
             />
             <Drawer
-                preserveScrollBarGap
-                motionPreset='slideInRight'
+                motionPreset='scale'
                 isOpen={isOpen}
                 placement='left'
                 onClose={onClose}
