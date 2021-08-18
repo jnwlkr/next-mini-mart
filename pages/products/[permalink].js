@@ -1,6 +1,9 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import { Navbar } from '../../components';
 import commerce from '../../lib/commerce';
-import { Box, Button } from '@chakra-ui/react';
+import { ChevronRightIcon } from '@chakra-ui/icons';
+import { Box, Button, Breadcrumb, BreadcrumbItem, Text, Divider, useToast } from '@chakra-ui/react';
 import { useCartDispatch } from '../../context/cart';
 
 export async function getStaticProps({ params }) {
@@ -31,19 +34,55 @@ export async function getStaticPaths() {
 }
 
 export default function ProductPage({ product }) {
-    const { setCart } = useCartDispatch()
+    const { setCart } = useCartDispatch();
+    const toast = useToast();
 
     const addToCart = () => {
         commerce.cart.add(product.id).then(({cart}) => setCart(cart));
+        toast({
+            description: `${name} was added to your cart`,
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
+        })
     }
 
     return (
         <>
             <Navbar textColor='black' />
-            <Box mx={5} mt={5}>
-                {product.name}
-                {product.price.formatted_with_symbol}
-                <Button onClick={addToCart}>Add to Cart</Button>
+            <Box display='flex' alignItems='center' m={5} w='100%' fontSize='sm'>
+                <Breadcrumb fontWeight={300} separator={<ChevronRightIcon color='gray.500' />}>
+                    <BreadcrumbItem color='gray.500'>
+                        <Link href='/products'>
+                            <a>
+                                Products
+                            </a>
+                        </Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link href={`/products/${product.permalink}`}>
+                            <a>
+                                {product.name}
+                            </a>
+                        </Link>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </Box>
+            <Box display='flex' flexWrap='wrap' mx={10} mt={5}>
+                <Box display='flex' alignItems='center' justifyContent='center' minWidth={{ base: '100%', md: '50%'}}>
+                    <Image width={400} height={400} src={product.media.source} alt='product image' />
+                </Box>
+                <Box display='flex' flexDirection='column' minWidth={{ base: '100%', md: '50%'}}>
+                    <Box w='100%' display='flex' justifyContent='space-between' alignItems='center'>
+                        <Text fontSize='3xl' fontWeight={300}>{product.name}</Text>
+                        <Text fontSize='xl' fontWeight={600}>{product.price.formatted_with_symbol}</Text>
+                    </Box>
+                    <Divider />
+                    <Box my={10}>
+                        <Text fontSize='sm' fontWeight={300} dangerouslySetInnerHTML={{ __html: product.description }} />
+                    </Box>
+                    <Button isFullWidth onClick={addToCart}>Add to Cart</Button>
+                </Box>
             </Box>
         </>
     )
