@@ -5,7 +5,7 @@ import commerce from '../../lib/commerce';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Breadcrumb, BreadcrumbItem, Text, Divider, useToast, Icon, VStack } from '@chakra-ui/react';
 import { useCartDispatch } from '../../context/cart';
-import { MdCheckCircle, MdLocalShipping, MdMood } from 'react-icons/md';
+import { MdCheckCircle, MdLocalShipping, MdMood, MdShoppingCart } from 'react-icons/md';
 
 export async function getStaticProps({ params }) {
     const { permalink } = params;
@@ -93,7 +93,7 @@ export default function ProductPage({ product }) {
                             </Box>
                         </Box>
                     </Box>
-                    <Button isFullWidth onClick={addToCart}>Add to Cart</Button>
+                    <Button isFullWidth leftIcon={<MdShoppingCart/>} onClick={addToCart}>Add to Cart</Button>
                 </Box>
             </Box>
         </>
