@@ -1,6 +1,6 @@
 import { useCartState, useCartDispatch } from '../context/cart';
 import commerce from '../lib/commerce';
-import { Box, Button, Text, Flex, Divider, CloseButton, HStack, ButtonGroup} from '@chakra-ui/react';
+import { Box, Button, Text, Flex, Divider, CloseButton, ButtonGroup} from '@chakra-ui/react';
 import { Navbar } from '../components';
 import Image from 'next/image';
 import Link from 'next/link';
