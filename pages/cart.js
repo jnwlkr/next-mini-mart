@@ -79,12 +79,12 @@ function CartItem({ id, name, quantity, line_total, media, permalink }) {
 }
 
 export default function CartPage() {
-    const { line_items, subtotal, total_items } = useCartState();
+    const { line_items, subtotal, total_items, id } = useCartState();
 
     const isEmpty = line_items.length === 0;
 
     const handleCheckout = () => {
-        console.log(line_items)
+        commerce.checkout.generateToken(id, {type: 'cart'}).then((checkout) => console.log(checkout))
     }
 
     return (

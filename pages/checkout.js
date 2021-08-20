@@ -1,5 +1,6 @@
 import { Box, Button } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useCartState } from '../context/cart';
 
 export default function Checkout() {
 
