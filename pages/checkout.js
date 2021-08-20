@@ -1,19 +1,34 @@
-import { Box, Flex, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from '@chakra-ui/react';
 import Link from 'next/link';
 import { ShippingForm } from '../components';
+import { ArrowBackIcon } from '@chakra-ui/icons';
 
 export default function Checkout() {
 
     return (
         <Box>
             {/* Header & back to cart */}
+            <Flex 
+                w='100%' 
+                h='64px' 
+                align='center'
+                justify='center' 
+                boxShadow='xs' 
+                opacity='0.8'
+                px={{base: 5, md: 10}}
+                fontSize={20}
+                fontWeight={300}
+            >
+                
+                <Text fontSize={24} fontWeight={700} fontStyle='italic'color='black' mr={2}>minimart checkout</Text>
+            </Flex>
             <Link href='/cart'>
                 <a>
-                    <Button>Back to cart</Button>
+                    <ArrowBackIcon w={7} h={7} /> Back to cart
                 </a>
             </Link>
             {/* Contents */}
-            <Flex m={10}>
+            <Flex m={{base: 5, md: 10}}>
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
                 <Flex minWidth='100%'>
                     <Accordion allowToggle width='100%'>
