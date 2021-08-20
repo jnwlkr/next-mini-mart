@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Navbar } from '../../components';
 import commerce from '../../lib/commerce';
 import { ChevronRightIcon } from '@chakra-ui/icons';
-import { Box, Button, Breadcrumb, BreadcrumbItem, Text, Divider, useToast, Icon, VStack } from '@chakra-ui/react';
+import { Box, Button, Breadcrumb, BreadcrumbItem, Text, Divider, useToast, Icon } from '@chakra-ui/react';
 import { useCartDispatch } from '../../context/cart';
 import { MdCheckCircle, MdLocalShipping, MdMood, MdShoppingCart } from 'react-icons/md';
 
