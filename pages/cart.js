@@ -100,7 +100,6 @@ export default function CartPage() {
                         <Text fontSize='xl' fontWeight={500}>Your cart is empty!</Text>
                     </Flex>
                 ) : (
-                    // Items in cart view
                     <Flex flexWrap='wrap' justifyContent='space-between' width='100%'>
                         <Flex flexDirection='column' justifyContent='space-between' minWidth={{base: '100%', md: '70%'}}>
                             {line_items.map((item) => (
@@ -124,7 +123,11 @@ export default function CartPage() {
                                     <Text fontWeight='semibold'>{subtotal.formatted_with_symbol}</Text>
                                 </Flex>
                             </Box>
-                            <Button mb={5} onClick={handleCheckout}>Checkout</Button>
+                            <Link href='/checkout'>
+                                <a>
+                                    <Button isFullWidth mb={5} onClick={handleCheckout}>Checkout</Button>
+                                </a>
+                            </Link>
                         </Flex> 
                     </Flex>
                     )
