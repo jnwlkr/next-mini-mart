@@ -2,7 +2,6 @@ import { useCartState, useCartDispatch } from '../context/cart';
 import commerce from '../lib/commerce';
 import { Box, Button, Text, Flex, Divider, CloseButton, ButtonGroup, useToast} from '@chakra-ui/react';
 import { Navbar } from '../components';
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -60,7 +59,7 @@ function CartItem({ id, name, quantity, line_total, media, permalink }) {
                 </Link>
             </Box>
             <Flex direction='column' width='35%'>
-                <Text fontSize={{base: 'xs', md: 'md'}} fontWeight={400}>{name}</Text>
+                <Text fontSize={{base: 'xs', sm: 'sm', md: 'md'}} fontWeight={400}>{name}</Text>
                 <ButtonGroup size='xs' isAttached alignItems='center'>
                     <Button onClick={decrementQuantity}>-</Button>
                     <Text fontSize={{base: 'xs', md: 'sm'}} p={2}>{quantity}</Text>
@@ -80,9 +79,13 @@ function CartItem({ id, name, quantity, line_total, media, permalink }) {
 }
 
 export default function CartPage() {
-    const { line_items, subtotal } = useCartState();
+    const { line_items, subtotal, total_items } = useCartState();
 
     const isEmpty = line_items.length === 0;
+
+    const handleCheckout = () => {
+        console.log(line_items)
+    }
 
     return (
         <>
@@ -90,7 +93,7 @@ export default function CartPage() {
         <Box px={{base: 5, md: 10}} mt={5}>
             <Box pb={5}>
                 <Text fontSize='2xl' fontWeight={600}>Shopping Cart</Text>
-                <Text fontSize='sm'>{line_items.length} items</Text>
+                <Text fontSize='sm'>{total_items} items</Text>
             </Box>
                 {isEmpty ? (
                     <Flex direction='column' align='center' justifyContent='center' m={5}>
@@ -104,7 +107,7 @@ export default function CartPage() {
                                 <CartItem key={item.id} {...item} />
                             ))}
                         </Flex>
-                        <Flex flexDirection='column' minWidth={{base: '100%', md: '30%'}} pl={5} mt={{base: 2, md: 0}}>
+                        <Flex flexDirection='column' minWidth={{base: '100%', md: '30%'}} pl={{base: 0, md: 5}} mt={{base: 5, md: 0}}>
                             <Text fontSize='lg' fontWeight={600}>Order summary</Text>
                             <Divider />
                             <Box my={2}>
@@ -121,7 +124,7 @@ export default function CartPage() {
                                     <Text fontWeight='semibold'>{subtotal.formatted_with_symbol}</Text>
                                 </Flex>
                             </Box>
-                            <Button mb={5}>Checkout</Button>
+                            <Button mb={5} onClick={handleCheckout}>Checkout</Button>
                         </Flex> 
                     </Flex>
                     )
