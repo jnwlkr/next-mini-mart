@@ -1,4 +1,4 @@
-import { Box, Input, Flex, Select, Button } from '@chakra-ui/react';
+import { Box, Input, Flex, Select, Button, FormControl } from '@chakra-ui/react';
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
@@ -18,7 +18,11 @@ export default function ShippingForm({ checkoutToken }) {
     const handleSubdivisionChange = (e) => {
         setSubdivision(e.target.value);
         commerce.checkout.getShippingOptions(checkoutToken.id, { country, subdivision }).then((response) => setShippingMethods(response));
-        console.log(shippingMethods);
+    }
+
+    const handleShippingChange = (e) => {
+        setShippingMethod(e.target.value);
+        commerce.checkout.checkShippingOption(checkoutToken.id, { shipping_option_id: e.target.value, country: country, region: subdivision }).then((response) => console.log(response))
     }
 
     useEffect(() => {
@@ -31,8 +35,12 @@ export default function ShippingForm({ checkoutToken }) {
     return (
         <Box>
             <Flex>
-                <Input m={1} placeholder='First name' />
-                <Input m={1} placeholder='Last name' />
+                <FormControl m={1} id='first-name' isRequired>
+                    <Input  placeholder='First name' />
+                </FormControl>
+                <FormControl m={1} id='last-name' isRequired>
+                    <Input  placeholder='Last name' />
+                </FormControl>
             </Flex>
             <Flex>
                 <Input m={1} placeholder='Email address' />
@@ -49,6 +57,9 @@ export default function ShippingForm({ checkoutToken }) {
                 <Input m={1} placeholder='Address line 2' />
             </Flex>
             <Flex>
+                <Input m={1} placeholder='City/Town' />
+            </Flex>
+            <Flex>
                 <Select width='50%' m={1} placeholder='State/Province' value={subdivision} onChange={(e) => handleSubdivisionChange(e)}>
                     {Object.entries(subdivisions).map(([code, name]) => ({ id: code, label: name })).map((item) => (
                         <option key={item.id} value={item.id}>{item.label}</option>
@@ -57,7 +68,7 @@ export default function ShippingForm({ checkoutToken }) {
                 <Input width='50%' m={1} placeholder='Postal code' />
             </Flex>
             <Flex mb={5}>
-                <Select m={1} placeholder='Shipping method' value={shippingMethod} onChange={(e) => setShippingMethod(e.target.value)}>
+                <Select m={1} placeholder='Shipping method' value={shippingMethod} onChange={(e) => handleShippingChange(e)}>
                     {shippingMethods.map((sO) => ({ id: sO.id, label: `${sO.description} - ${sO.price.formatted_with_symbol}` })).map((item) => (
                         <option key={item.id} value={item.id}>{item.label}</option>
                     ))} 
