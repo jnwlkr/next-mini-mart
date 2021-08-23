@@ -5,3 +5,4 @@ export {default as Category} from './Category';
 export {default as CategoryList} from './CategoryList';
 export {default as ShippingForm} from './Checkout/ShippingForm';
 export {default as Review} from './Checkout/Review';
+export {default as CheckoutForm} from './Checkout/CheckoutForm';
