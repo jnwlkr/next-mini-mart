@@ -1,9 +1,19 @@
-import { Box, Flex, Text, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel } from '@chakra-ui/react';
+import { Box, Flex, Text, Button, Accordion, AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Divider, CircularProgress } from '@chakra-ui/react';
 import Link from 'next/link';
-import { ShippingForm } from '../components';
+import { ShippingForm, Review } from '../components';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { useState, useEffect } from 'react';
+import { useCartState } from '../context/cart';
+import commerce from '../lib/commerce';
 
 export default function Checkout() {
+    const { id } = useCartState();
+    const [checkoutToken, setCheckoutToken] = useState();
+    const [index, setIndex] = useState([0]);
+
+    useEffect(() => {
+        commerce.checkout.generateToken(id, {type: 'cart'}).then((checkout) => setCheckoutToken(checkout));
+    }, []);
 
     return (
         <Box>
@@ -28,26 +38,31 @@ export default function Checkout() {
                 </a>
             </Link>
             {/* Contents */}
-            <Flex m={{base: 5, md: 10}}>
-                {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
-                <Flex minWidth='100%'>
-                    <Accordion allowToggle width='100%'>
+            {!checkoutToken ? (
+                <Flex alignItems='center' justifyContent='center' height='400px'>
+                    <CircularProgress isIndeterminate />
+                </Flex>
+            ) : (
 
+            <Flex m={{base: 5, md: 10}} flexWrap='wrap'>
+                {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
+                <Flex minWidth={{base: '100%', md: '60%'}} pr={{base: 0, md: 5}} mb={{base: 5, md: 0}}>
+                    <Accordion allowToggle defaultIndex={index} width='100%'>
                         <AccordionItem>
                             <AccordionButton>
-                                <Box flex='1' textAlign='left'>
-                                    1. Shipping information
+                                <Box flex='1' textAlign='left' fontSize='lg' fontWeight={500}>
+                                    1. {checkoutToken?.id}
                                 </Box>
                                 <AccordionIcon />
                             </AccordionButton>
                             <AccordionPanel pb={4}>
-                                <ShippingForm />
+                                <ShippingForm checkoutToken={checkoutToken} />
                             </AccordionPanel>
                         </AccordionItem>
 
                         <AccordionItem>
                             <AccordionButton>
-                                <Box flex='1' textAlign='left'>
+                                <Box flex='1' textAlign='left' fontSize='lg' fontWeight={400}>
                                     2. Choose a shipping method
                                 </Box>
                                 <AccordionIcon />
@@ -59,7 +74,7 @@ export default function Checkout() {
 
                         <AccordionItem>
                             <AccordionButton>
-                                <Box flex='1' textAlign='left'>
+                                <Box flex='1' textAlign='left' fontSize='lg' fontWeight={400}>
                                     3. Payment
                                 </Box>
                                 <AccordionIcon />
@@ -72,10 +87,8 @@ export default function Checkout() {
                     </Accordion>
                 </Flex>
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Flex>
-
-                </Flex>
-            </Flex>
+                <Review checkoutToken={checkoutToken} />
+            </Flex>)}
         </Box>
     )
 }

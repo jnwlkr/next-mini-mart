@@ -83,9 +83,7 @@ export default function CartPage() {
 
     const isEmpty = line_items.length === 0;
 
-    const handleCheckout = () => {
-        commerce.checkout.generateToken(id, {type: 'cart'}).then((checkout) => console.log(checkout))
-    }
+    
 
     return (
         <>
@@ -125,7 +123,7 @@ export default function CartPage() {
                             </Box>
                             <Link href='/checkout'>
                                 <a>
-                                    <Button isFullWidth mb={5} onClick={handleCheckout}>Checkout</Button>
+                                    <Button isFullWidth mb={5} >Checkout</Button>
                                 </a>
                             </Link>
                         </Flex> 
