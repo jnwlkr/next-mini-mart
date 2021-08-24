@@ -9,8 +9,6 @@ import commerce from '../lib/commerce';
 export default function Checkout() {
     const { id } = useCartState();
     const [checkoutToken, setCheckoutToken] = useState();
-    const [shippingData, setShippingData] = useState({})
-    const [liveObject, setLiveObject] = useState({});
 
     // handleShipping
     //  setShippingData upon button click in ShippingForm
@@ -24,7 +22,7 @@ export default function Checkout() {
         } catch (error) {
             console.log('lol')
         }
-        
+        console.log(checkoutToken)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

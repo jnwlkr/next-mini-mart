@@ -1,4 +1,4 @@
-import { Flex, Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, AccordionPanel, Input, FormControl, Select, Button } from '@chakra-ui/react';
+import { Flex, Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, AccordionPanel, Input, FormControl, FormLabel, Select, Button } from '@chakra-ui/react';
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
@@ -7,9 +7,17 @@ export default function CheckoutForm({ checkoutToken }) {
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
     const [shippingMethod, setShippingMethod] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [address1, setAddress1] = useState('');
+    const [address2, setAddress2] = useState('');
+    const [city, setCity] = useState('');
+    const [zip, setZip] = useState('');
     const [shippingCountries, setShippingCountries] = useState({});
     const [subdivisions, setSubdivisions] = useState({});
     const [shippingMethods, setShippingMethods] = useState([]);
+    const [shippingData, setShippingData] = useState({});
 
     const handleCountryChange = (e) => {
         setCountry(e.target.value);
@@ -26,12 +34,30 @@ export default function CheckoutForm({ checkoutToken }) {
         commerce.checkout.checkShippingOption(checkoutToken.id, { shipping_option_id: e.target.value, country: country, region: subdivision }).then((response) => console.log(response))
     }
 
+    const handleShippingData = (event) => {
+        event.preventDefault();
+        const data = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            country: country,
+            address1: address1,
+            address2: address2,
+            city: city,
+            subdivision: subdivision,
+            zip: zip,
+            shippingMethod: shippingMethod,
+        };
+        setShippingData(data);
+        console.log(data);
+    }
+
     
 
     useEffect(() => {
         commerce.services.localeListShippingCountries(checkoutToken.id).then((countries) => setShippingCountries(countries.countries));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [checkoutToken.id])
     
 
 
@@ -47,49 +73,77 @@ export default function CheckoutForm({ checkoutToken }) {
                     </AccordionButton>
                     <AccordionPanel pb={4}>
                         <Box>
-                            <form>
+                            <form onSubmit={handleShippingData}>
                                 <Flex>
                                     <FormControl m={1} id='first-name' isRequired>
-                                        <Input  placeholder='First name' />
+                                        <FormLabel>First name</FormLabel>
+                                        <Input placeholder='First name' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                                     </FormControl>
                                     <FormControl m={1} id='last-name' isRequired>
-                                        <Input  placeholder='Last name' />
+                                        <FormLabel>Last name</FormLabel>
+                                        <Input placeholder='Last name' value={lastName} onChange={(e) => setLastName(e.target.value)} />
                                     </FormControl>
                                 </Flex>
                                 <Flex>
-                                    <Input m={1} placeholder='Email address' />
+                                    <FormControl m={1} id='email-address' isRequired>
+                                        <FormLabel>Email address</FormLabel>
+                                        <Input placeholder='Email address' value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    </FormControl>
                                 </Flex>
                                 <Flex>
-                                    <Select maxWidth='100%' m={1} placeholder='Country' value={country} onChange={(e) => handleCountryChange(e)}>
+                                    <FormControl maxWidth='100%' m={1} id='country' isRequired>
+                                    <FormLabel>Country</FormLabel>
+                                    <Select placeholder='Country' value={country} onChange={(e) => handleCountryChange(e)}>
                                         {Object.entries(shippingCountries).map(([code, name]) => ({ id: code, label: name})).map((item) => (
                                             <option key={item.id} value={item.id}>{item.label}</option>
                                         ))}
                                     </Select>
+                                    </FormControl>
                                 </Flex>
                                 <Flex>
-                                    <Input m={1} placeholder='Address line 1' />
-                                    <Input m={1} placeholder='Address line 2' />
+                                    <FormControl m={1} isRequired id='address-1'>
+                                        <FormLabel>Address line 1</FormLabel>
+                                        <Input placeholder='Address line 1' value={address1} onChange={(e) => setAddress1(e.target.value)} />
+                                    </FormControl>
+                                    <FormControl m={1} id='address-2'>
+                                        <FormLabel>Address line 2</FormLabel>
+                                        <Input placeholder='Address line 2' value={address2} onChange={(e) => setAddress2(e.target.value)} />
+                                    </FormControl>
                                 </Flex>
                                 <Flex>
-                                    <Input m={1} placeholder='City/Town' />
+                                    <FormControl m={1} isRequired id='city'>
+                                        <FormLabel>City/Town</FormLabel>
+                                        <Input m={1} placeholder='City/Town' value={city} onChange={(e) => setCity(e.target.value)} />
+                                    </FormControl>
+                                    
                                 </Flex>
                                 <Flex>
-                                    <Select width='50%' m={1} placeholder='State/Province' value={subdivision} onChange={(e) => handleSubdivisionChange(e)}>
-                                        {Object.entries(subdivisions).map(([code, name]) => ({ id: code, label: name })).map((item) => (
-                                            <option key={item.id} value={item.id}>{item.label}</option>
-                                        ))}
-                                    </Select>
-                                    <Input width='50%' m={1} placeholder='Postal code' />
+                                    <FormControl width='50%' m={1} isRequired>
+                                        <FormLabel>State/Province</FormLabel>
+                                        <Select placeholder='State/Province' value={subdivision} onChange={(e) => handleSubdivisionChange(e)}>
+                                            {Object.entries(subdivisions).map(([code, name]) => ({ id: code, label: name })).map((item) => (
+                                                <option key={item.id} value={item.id}>{item.label}</option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl width='50%' m={1} isRequired>
+                                        <FormLabel>Postal code</FormLabel>
+                                        <Input placeholder='Postal code' value={zip} onChange={(e) => setZip(e.target.value)} />
+                                    </FormControl>
                                 </Flex>
                                 <Flex mb={5}>
-                                    <Select m={1} placeholder='Shipping method' value={shippingMethod} onChange={(e) => handleShippingChange(e)}>
-                                        {shippingMethods.map((sO) => ({ id: sO.id, label: `${sO.description} - ${sO.price.formatted_with_symbol}` })).map((item) => (
-                                            <option key={item.id} value={item.id}>{item.label}</option>
-                                        ))} 
-                                    </Select>
+                                    <FormControl m={1} isRequired>
+                                        <FormLabel>Shipping method</FormLabel>
+                                        <Select placeholder='Shipping method' value={shippingMethod} onChange={(e) => handleShippingChange(e)}>
+                                            {shippingMethods.map((sO) => ({ id: sO.id, label: `${sO.description} - ${sO.price.formatted_with_symbol}` } )).map((item) => (
+                                                <option key={item.id} value={item.id}>{item.label}</option>
+                                            ))} 
+                                        </Select>
+                                    </FormControl>
                                 </Flex>
+                            
+                            <Button type='submit' isFullWidth>Confirm shipping information</Button>
                             </form>
-                            <Button isFullWidth>Confirm shipping information</Button>
                         </Box>
                     </AccordionPanel>
                 </AccordionItem>
