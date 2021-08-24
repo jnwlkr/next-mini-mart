@@ -34,6 +34,7 @@ export default function ShippingForm({ checkoutToken }) {
 
     return (
         <Box>
+            <form>
             <Flex>
                 <FormControl m={1} id='first-name' isRequired>
                     <Input  placeholder='First name' />
@@ -74,7 +75,7 @@ export default function ShippingForm({ checkoutToken }) {
                     ))} 
                 </Select>
             </Flex>
-
+            </form>
             <Button isFullWidth>Confirm shipping information</Button>
         </Box>
     )

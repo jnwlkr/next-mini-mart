@@ -9,6 +9,14 @@ import commerce from '../lib/commerce';
 export default function Checkout() {
     const { id } = useCartState();
     const [checkoutToken, setCheckoutToken] = useState();
+    const [shippingData, setShippingData] = useState({})
+    const [liveObject, setLiveObject] = useState({});
+
+    // handleShipping
+    //  setShippingData upon button click in ShippingForm
+    //  setTaxZone
+    //  get live object
+    //  pass to Review for updated totals
 
     useEffect(() => {
         try {
