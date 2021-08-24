@@ -49,6 +49,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
             shippingMethod: shippingMethod,
         };
         update(data);
+        setIndex([1]);
     }
 
     
@@ -62,7 +63,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
 
     return (
         <Flex width={{base: '100%', md: '70%'}} pr={{base: 0, md: 5}} mb={{base: 5, md: 0}}>
-            <Accordion allowToggle defaultIndex={index} width='100%'>
+            <Accordion allowToggle defaultIndex={[0]} index={index} width='100%'>
                 <AccordionItem>
                     <AccordionButton>
                         <Box flex='1' textAlign='left' fontSize='lg' fontWeight={600}>
@@ -86,7 +87,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
                                 <Flex>
                                     <FormControl m={1} id='email-address' isRequired>
                                         <FormLabel>Email address</FormLabel>
-                                        <Input placeholder='Email address' value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <Input type='email' placeholder='Email address' value={email} onChange={(e) => setEmail(e.target.value)} />
                                     </FormControl>
                                 </Flex>
                                 <Flex>
