@@ -2,7 +2,7 @@ import { Flex, Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, Ac
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
-export default function CheckoutForm({ checkoutToken }) {
+export default function CheckoutForm({ checkoutToken, update }) {
     const [index, setIndex] = useState([0]);
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
@@ -48,8 +48,7 @@ export default function CheckoutForm({ checkoutToken }) {
             zip: zip,
             shippingMethod: shippingMethod,
         };
-        setShippingData(data);
-        console.log(data);
+        update(data);
     }
 
     

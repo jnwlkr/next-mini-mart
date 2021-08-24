@@ -9,12 +9,18 @@ import commerce from '../lib/commerce';
 export default function Checkout() {
     const { id } = useCartState();
     const [checkoutToken, setCheckoutToken] = useState();
+    const [shippingData, setShippingData] = useState({});
 
     // handleShipping
     //  setShippingData upon button click in ShippingForm
     //  setTaxZone
     //  get live object
     //  pass to Review for updated totals
+
+    const update = (data) => {
+        setShippingData(data);
+        console.log(data); //works
+    }
 
     useEffect(() => {
         try {
@@ -59,7 +65,7 @@ export default function Checkout() {
 
             <Flex m={{base: 5, md: 10}} flexWrap='wrap'>
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
-                <CheckoutForm checkoutToken={checkoutToken} />
+                <CheckoutForm checkoutToken={checkoutToken} update={update} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
                 <Review checkoutToken={checkoutToken} />
             </Flex>)}
