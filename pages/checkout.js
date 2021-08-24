@@ -30,7 +30,7 @@ export default function Checkout() {
         }
         console.log(checkoutToken)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [id]);
 
     return (
         <Box>
@@ -67,7 +67,7 @@ export default function Checkout() {
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
                 <CheckoutForm checkoutToken={checkoutToken} update={update} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Review checkoutToken={checkoutToken} />
+                <Review checkoutToken={checkoutToken} shippingData={shippingData} />
             </Flex>)}
         </Box>
     )
