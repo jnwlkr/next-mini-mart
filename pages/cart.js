@@ -51,10 +51,10 @@ function CartItem({ id, name, quantity, line_total, media, permalink }) {
     return (
         <>
         <Flex justifyContent='space-between' alignItems='center' minHeight={{base: '95px', sm: '140px', md: '150px'}} borderRadius='md' px={3} >
-            <Box width='20%' mr={2}>
+            <Box width='20%' mr={2} mt={1}> 
                 <Link href={`/products/${permalink}`}>
                     <a>
-                        <Image width={120} height={120} src={media.source} alt='cart-item' />
+                        <Image width={130} height={130} src={media.source} alt='cart-item' />
                     </a>
                 </Link>
             </Box>
@@ -79,11 +79,9 @@ function CartItem({ id, name, quantity, line_total, media, permalink }) {
 }
 
 export default function CartPage() {
-    const { line_items, subtotal, total_items, id } = useCartState();
+    const { line_items, subtotal, total_items } = useCartState();
 
     const isEmpty = line_items.length === 0;
-
-    
 
     return (
         <>
@@ -99,7 +97,7 @@ export default function CartPage() {
                     </Flex>
                 ) : (
                     <Flex flexWrap='wrap' justifyContent='space-between' width='100%'>
-                        <Flex flexDirection='column' justifyContent='space-between' minWidth={{base: '100%', md: '70%'}}>
+                        <Flex flexDirection='column' minWidth={{base: '100%', md: '70%'}}>
                             {line_items.map((item) => (
                                 <CartItem key={item.id} {...item} />
                             ))}
