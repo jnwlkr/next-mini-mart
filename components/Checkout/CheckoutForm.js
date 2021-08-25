@@ -158,7 +158,7 @@ export default function CheckoutForm({ checkoutToken, update, setOrder }) {
                         <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} setOrder={setOrder}/>
+                        <PaymentForm shippingData={shippingData} setOrder={setOrder} setIndex={setIndex}/>
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>

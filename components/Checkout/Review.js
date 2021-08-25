@@ -2,12 +2,12 @@ import { Box, Flex, Text, Divider, Button, SkeletonText } from '@chakra-ui/react
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
-export default function Review({ checkoutToken }) {
+export default function Review({ checkoutToken, order, handleCheckout }) {
     const [liveObj, setLiveObj] = useState();
 
     useEffect(() => {
         try {
-            commerce.checkout.getLive(checkoutToken.id).then((response) => setLiveObj(response));
+            commerce.checkout.getLive(checkoutToken).then((response) => setLiveObj(response));
         } catch (error) {
             console.log('lol')
         }
@@ -43,7 +43,7 @@ export default function Review({ checkoutToken }) {
                             <Text fontWeight='semibold'>{liveObj.total_with_tax.formatted_with_symbol}</Text>
                         </Flex>
                     </Box>
-                    <Button isFullWidth>Complete order</Button>
+                    <Button isFullWidth onClick={() => handleCheckout(event, checkoutToken, order)}>Complete order</Button>
                     </>
                 )}
         </Flex>

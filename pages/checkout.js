@@ -18,6 +18,14 @@ export default function Checkout() {
     //  get live object
     //  pass to Review for updated totals
 
+    const handleCheckout = async (event, checkoutTokenId, order) => {
+            event.preventDefault();
+            await commerce.checkout.capture(checkoutTokenId, order).then((response) => console.log(response));
+            // set finalOrder
+            // refresh cart
+            // Confirmation
+        }
+
     const update = async (data) => {
         setShippingData(data);
         await commerce.checkout.setTaxZone(checkoutToken.id, { country: data.country, region: data.subdivision, postal_zip_code: data.zip});
@@ -69,7 +77,7 @@ export default function Checkout() {
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
                 <CheckoutForm checkoutToken={checkoutToken} update={update} setOrder={setOrder} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Review checkoutToken={checkoutToken} />
+                <Review checkoutToken={checkoutToken.id} order={order} handleCheckout={handleCheckout} />
             </Flex>)}
         </Box>
     )

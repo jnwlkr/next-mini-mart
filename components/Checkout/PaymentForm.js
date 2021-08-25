@@ -4,7 +4,7 @@ import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js
 
 const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 
-export default function PaymentForm({ checkoutToken, shippingData, setOrder }) {
+export default function PaymentForm({ setIndex, shippingData, setOrder }) {
 
     const handleSubmit = async (event, elements, stripe) => {
         event.preventDefault();
@@ -43,6 +43,7 @@ export default function PaymentForm({ checkoutToken, shippingData, setOrder }) {
                 }
             }
             setOrder(data);
+            setIndex([2])
             console.log(data);
         }
     }
@@ -51,14 +52,14 @@ export default function PaymentForm({ checkoutToken, shippingData, setOrder }) {
         <Box>
             <Elements stripe={stripePromise}>
                 <ElementsConsumer>
-                    {({ elements, stripe })} => (
+                    {({ elements, stripe }) => (
                         <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
-                            <Box>
+                            <Box p={5} mb={5} bgColor='gray.50' borderRadius='md' boxShadow='base'>
                                 <CardElement />
                             </Box>
-                            <Button isFullWidth type='submit' disabled={!stripe}>Confirm payment information</Button>
+                            <Button isFullWidth type='submit'>Confirm payment information</Button>
                         </form>
-                    )
+                    )}
                 </ElementsConsumer>
             </Elements>
         </Box>
