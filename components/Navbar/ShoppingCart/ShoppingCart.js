@@ -97,11 +97,11 @@ export default function ShoppingCart({ textColor }) {
                                     </ListItem>
                                     </>
                                 ))}
-                                <Divider />
-                                <ListItem display='flex' justifyContent='space-between'>
+                                <Divider key='divider' />
+                                <ListItem display='flex' justifyContent='space-between' key='subtotal'>
                                     <Text fontWeight={600}>Subtotal:</Text> <Text>{subtotal.formatted_with_symbol}</Text>
                                 </ListItem>
-                                <ListItem>
+                                <ListItem key='review-cart'>
                                     <Link href='/cart'>
                                         <a>
                                             <Button isFullWidth>Review cart</Button>
