@@ -1,4 +1,4 @@
-import { Box, Flex, Text,  CircularProgress } from '@chakra-ui/react';
+import { Box, Flex, Text,  CircularProgress} from '@chakra-ui/react';
 import Link from 'next/link';
 import {  Review, CheckoutForm } from '../components';
 import { ArrowBackIcon } from '@chakra-ui/icons';
@@ -9,7 +9,7 @@ import commerce from '../lib/commerce';
 export default function Checkout() {
     const { id } = useCartState();
     const [checkoutToken, setCheckoutToken] = useState();
-    const [shippingData, setShippingData] = useState({});
+    const [shippingData, setShippingData] = useState();
 
     // handleShipping
     //  setShippingData upon button click in ShippingForm
@@ -17,8 +17,9 @@ export default function Checkout() {
     //  get live object
     //  pass to Review for updated totals
 
-    const update = (data) => {
+    const update = async (data) => {
         setShippingData(data);
+        await commerce.checkout.setTaxZone(checkoutToken.id, { country: data.country, region: data.subdivision, postal_zip_code: data.zip});
         console.log(data); //works
     }
 
@@ -67,7 +68,7 @@ export default function Checkout() {
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
                 <CheckoutForm checkoutToken={checkoutToken} update={update} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Review checkoutToken={checkoutToken} shippingData={shippingData} />
+                <Review checkoutToken={checkoutToken} />
             </Flex>)}
         </Box>
     )
