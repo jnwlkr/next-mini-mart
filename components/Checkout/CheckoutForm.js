@@ -3,7 +3,7 @@ import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
 export default function CheckoutForm({ checkoutToken, update }) {
-    const [index, setIndex] = useState(0);
+    const [index, setIndex] = useState([0]);
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
     const [shippingMethod, setShippingMethod] = useState('');
@@ -49,7 +49,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
             shippingMethod: shippingMethod,
         };
         update(data);
-        setIndex(1);
+        setIndex([1]);
     }
 
     
@@ -63,9 +63,9 @@ export default function CheckoutForm({ checkoutToken, update }) {
 
     return (
         <Flex width={{base: '100%', md: '70%'}} pr={{base: 0, md: 5}} mb={{base: 5, md: 0}}>
-            <Accordion allowMultiple allowToggle  index={[index]} width='100%'>
+            <Accordion allowMultiple allowToggle index={index} width='100%'>
                 <AccordionItem>
-                    <AccordionButton>
+                    <AccordionButton onClick={() => setIndex([0])}>
                         <Box flex='1' textAlign='left' fontSize='lg' fontWeight={600}>
                             1. Shipping information
                         </Box>
@@ -149,7 +149,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
                 </AccordionItem>
 
                 <AccordionItem>
-                    <AccordionButton>
+                    <AccordionButton onClick={() => setIndex([1])}>
                         <Box flex='1' textAlign='left' fontSize='lg' fontWeight={600}>
                             2. Payment
                         </Box>
