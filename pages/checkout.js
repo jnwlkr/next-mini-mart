@@ -10,6 +10,7 @@ export default function Checkout() {
     const { id } = useCartState();
     const [checkoutToken, setCheckoutToken] = useState();
     const [shippingData, setShippingData] = useState();
+    const [order, setOrder] = useState();
 
     // handleShipping
     //  setShippingData upon button click in ShippingForm
@@ -66,7 +67,7 @@ export default function Checkout() {
 
             <Flex m={{base: 5, md: 10}} flexWrap='wrap'>
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
-                <CheckoutForm checkoutToken={checkoutToken} update={update} />
+                <CheckoutForm checkoutToken={checkoutToken} update={update} setOrder={setOrder} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
                 <Review checkoutToken={checkoutToken} />
             </Flex>)}

@@ -1,8 +1,9 @@
 import { Flex, Accordion, AccordionItem, AccordionButton, Box, AccordionIcon, AccordionPanel, Input, FormControl, FormLabel, Select, Button } from '@chakra-ui/react';
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
+import { PaymentForm } from '../../components';
 
-export default function CheckoutForm({ checkoutToken, update }) {
+export default function CheckoutForm({ checkoutToken, update, setOrder }) {
     const [index, setIndex] = useState([0]);
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
@@ -17,7 +18,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
     const [shippingCountries, setShippingCountries] = useState({});
     const [subdivisions, setSubdivisions] = useState({});
     const [shippingMethods, setShippingMethods] = useState([]);
-    const [shippingData, setShippingData] = useState({});
+    const [shippingData, setShippingData] = useState();
 
     const handleCountryChange = (e) => {
         setCountry(e.target.value);
@@ -49,6 +50,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
             shippingMethod: shippingMethod,
         };
         update(data);
+        setShippingData(data);
         setIndex([1]);
     }
 
@@ -156,7 +158,7 @@ export default function CheckoutForm({ checkoutToken, update }) {
                         <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        Payment
+                        <PaymentForm shippingData={shippingData} checkoutToken={checkoutToken} setOrder={setOrder}/>
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>
