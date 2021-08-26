@@ -4,6 +4,7 @@ import {  Review, CheckoutForm, Confirmation } from '../components';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import { useCartState, useCartDispatch } from '../context/cart';
+import { useCheckoutState, useCheckoutDispatch } from '../context/checkout';
 import commerce from '../lib/commerce';
 
 export default function Checkout() {
