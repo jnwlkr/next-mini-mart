@@ -23,9 +23,10 @@ export default function Checkout() {
 
     const handleCheckout = async (event, checkoutTokenId, orderData) => {
             event.preventDefault();
-            await commerce.checkout.capture(checkoutTokenId, orderData).then((response) => setOrder(response));
             setConfirmed(true);
+            await commerce.checkout.capture(checkoutTokenId, orderData).then((response) => setOrder(response));
             reset();
+            setCheckoutToken(null);
             // refresh cart
             // Confirmation
         }
@@ -64,7 +65,7 @@ export default function Checkout() {
                 <Text fontSize={24} fontWeight={700} fontStyle='italic'color='black' mr={2}>minimart checkout</Text>
             </Flex>
             {/* Contents */}
-            {!checkoutToken && !confirmed ? (
+            {!checkoutToken && !confirmed || !order && !!confirmed ? (
                 <Flex alignItems='center' justifyContent='center' height='400px'>
                     <CircularProgress isIndeterminate />
                 </Flex>
