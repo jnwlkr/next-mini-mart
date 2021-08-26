@@ -1,16 +1,19 @@
 import { Box, Flex, Text,  CircularProgress} from '@chakra-ui/react';
 import Link from 'next/link';
-import {  Review, CheckoutForm } from '../components';
+import {  Review, CheckoutForm, Confirmation } from '../components';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
-import { useCartState } from '../context/cart';
+import { useCartState, useCartDispatch } from '../context/cart';
 import commerce from '../lib/commerce';
 
 export default function Checkout() {
     const { id } = useCartState();
+    const { reset } = useCartDispatch();
     const [checkoutToken, setCheckoutToken] = useState();
     const [shippingData, setShippingData] = useState();
+    const [orderData, setOrderData] = useState();
     const [order, setOrder] = useState();
+    const [confirmed, setConfirmed] = useState(false);
 
     // handleShipping
     //  setShippingData upon button click in ShippingForm
@@ -18,10 +21,11 @@ export default function Checkout() {
     //  get live object
     //  pass to Review for updated totals
 
-    const handleCheckout = async (event, checkoutTokenId, order) => {
+    const handleCheckout = async (event, checkoutTokenId, orderData) => {
             event.preventDefault();
-            await commerce.checkout.capture(checkoutTokenId, order).then((response) => console.log(response));
-            // set finalOrder
+            await commerce.checkout.capture(checkoutTokenId, orderData).then((response) => setOrder(response));
+            setConfirmed(true);
+            reset();
             // refresh cart
             // Confirmation
         }
@@ -59,6 +63,17 @@ export default function Checkout() {
                 
                 <Text fontSize={24} fontWeight={700} fontStyle='italic'color='black' mr={2}>minimart checkout</Text>
             </Flex>
+            {/* Contents */}
+            {!checkoutToken && !confirmed ? (
+                <Flex alignItems='center' justifyContent='center' height='400px'>
+                    <CircularProgress isIndeterminate />
+                </Flex>
+            ) : !!order && !!confirmed ? (
+                <Flex>
+                <Confirmation order={order} />
+                </Flex>
+            ) : (
+            <>
             <Flex px={5} pt={5}>
             <Link href='/cart'>
                 <a>
@@ -66,19 +81,14 @@ export default function Checkout() {
                 </a>
             </Link>
             </Flex>
-            {/* Contents */}
-            {!checkoutToken ? (
-                <Flex alignItems='center' justifyContent='center' height='400px'>
-                    <CircularProgress isIndeterminate />
-                </Flex>
-            ) : (
-
             <Flex m={{base: 5, md: 10}} flexWrap='wrap'>
                 {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
-                <CheckoutForm checkoutToken={checkoutToken} update={update} setOrder={setOrder} />
+                <CheckoutForm checkoutToken={checkoutToken} update={update} setOrderData={setOrderData} />
                 {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Review checkoutToken={checkoutToken.id} order={order} handleCheckout={handleCheckout} />
-            </Flex>)}
+                <Review checkoutToken={checkoutToken.id} orderData={orderData} handleCheckout={handleCheckout} />
+            </Flex>
+            </>
+            )}
         </Box>
     )
 }

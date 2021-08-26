@@ -2,7 +2,7 @@ import { Box, Flex, Text, Divider, Button, SkeletonText } from '@chakra-ui/react
 import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 
-export default function Review({ checkoutToken, order, handleCheckout }) {
+export default function Review({ checkoutToken, orderData, handleCheckout }) {
     const [liveObj, setLiveObj] = useState();
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export default function Review({ checkoutToken, order, handleCheckout }) {
                             <Text fontWeight='semibold'>{liveObj.total_with_tax.formatted_with_symbol}</Text>
                         </Flex>
                     </Box>
-                    <Button isFullWidth onClick={() => handleCheckout(event, checkoutToken, order)}>Complete order</Button>
+                    <Button isFullWidth onClick={() => handleCheckout(event, checkoutToken, orderData)}>Complete order</Button>
                     </>
                 )}
         </Flex>

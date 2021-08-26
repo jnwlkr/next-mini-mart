@@ -4,7 +4,7 @@ import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js
 
 const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 
-export default function PaymentForm({ setIndex, shippingData, setOrder }) {
+export default function PaymentForm({ setIndex, shippingData, setOrderData }) {
 
     const handleSubmit = async (event, elements, stripe) => {
         event.preventDefault();
@@ -42,7 +42,7 @@ export default function PaymentForm({ setIndex, shippingData, setOrder }) {
                     }
                 }
             }
-            setOrder(data);
+            setOrderData(data);
             setIndex([2])
             console.log(data);
         }

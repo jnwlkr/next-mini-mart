@@ -3,7 +3,7 @@ import commerce from '../../lib/commerce';
 import { useState, useEffect } from 'react';
 import { PaymentForm } from '../../components';
 
-export default function CheckoutForm({ checkoutToken, update, setOrder }) {
+export default function CheckoutForm({ checkoutToken, update, setOrderData }) {
     const [index, setIndex] = useState([0]);
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
@@ -158,7 +158,7 @@ export default function CheckoutForm({ checkoutToken, update, setOrder }) {
                         <AccordionIcon />
                     </AccordionButton>
                     <AccordionPanel pb={4}>
-                        <PaymentForm shippingData={shippingData} setOrder={setOrder} setIndex={setIndex}/>
+                        <PaymentForm shippingData={shippingData} setOrderData={setOrderData} setIndex={setIndex}/>
                     </AccordionPanel>
                 </AccordionItem>
             </Accordion>
