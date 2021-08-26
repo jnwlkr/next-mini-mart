@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
     const getCart = async () => {
         try {
             const cart = await commerce.cart.retrieve();
-            setCart(cart);
+            dispatch({ type: SET_CART, payload: cart });
         } catch (error) {
             // put user error alert
             console.log(error);
