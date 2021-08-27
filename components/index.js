@@ -8,3 +8,4 @@ export {default as Review} from './Checkout/Review';
 export {default as CheckoutForm} from './Checkout/CheckoutForm';
 export {default as PaymentForm} from './Checkout/PaymentForm';
 export {default as Confirmation} from './Checkout/Confirmation';
+export {default as CheckoutNavbar} from './Checkout2/CheckoutNavbar';
