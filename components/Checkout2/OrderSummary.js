@@ -5,7 +5,7 @@ export default function OrderSummary() {
     const { live } = useCheckoutState();
 
     return (
-        <Flex w='100%' borderRadius='md' boxShadow='lg' bgColor='gray.50' ml={{base: 0, md: 5}} pb={5} mb={2} height='100%' direction='column'>
+        <Flex w='100%' borderRadius='md' boxShadow='lg' bgColor='gray.50' ml={{base: 0, md: 5}} pb={5} mb={2} direction='column'>
             <Text fontSize='lg' p={5} color='blackAlpha.800' fontWeight={500}>Order Summary</Text>
             <Box>
                 <Flex justifyContent='space-between' mx={5} mb={2}>
