@@ -1,8 +1,11 @@
 import { Flex, Box, Text, IconButton } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 
 export default function CheckoutNavbar() {
+    const router = useRouter();
+
     return (
         <Flex 
             w='100%' 
@@ -14,11 +17,7 @@ export default function CheckoutNavbar() {
             px={3}
         >
             <Flex>
-                <Link href='/cart'>
-                    <a>
-                        <IconButton variant='outline' icon={<ArrowBackIcon />} />
-                    </a>
-                </Link>
+                <IconButton variant='ghost' icon={<ArrowBackIcon />} onClick={() => router.push('/cart')} size='lg' />
             </Flex>
 
             <Text 
