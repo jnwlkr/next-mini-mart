@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Flex, FormControl, Input, Select, Box, FormLabel } from '@chakra-ui/react';
+import { Flex, FormControl, Input, Select, Box, FormLabel, Divider } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useCheckoutState, useCheckoutDispatch } from '../../context/checkout';
 import commerce from '../../lib/commerce';
@@ -11,10 +11,10 @@ export default function ShippingForm() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [shippingData, setShippingData] = useState();
-    const [country, setCountry] = useState('');
     const [countries, setCountries] = useState({});
+    const [country, setCountry] = useState('');
     const [subdivisions, setSubdivisions] = useState({});
-    const [shippingMethods, setShippingMethods] = useState({});
+    const [shippingMethods, setShippingMethods] = useState([]);
 
     const getCountries = async (checkoutTokenId) => {
         try {
@@ -29,8 +29,18 @@ export default function ShippingForm() {
         try {
             const { subdivisions } = await commerce.services.localeListSubdivisions(e.target.value);
             setSubdivisions(subdivisions);
+            setCountry(e.target.value);
         } catch (error) {
             // console.log(error)
+        }
+    };
+
+    const handleSubdivisionChange = async (e) => {
+        try {
+            const subdivision = e.target.value;
+            commerce.checkout.getShippingOptions(id, { country, subdivision }).then((response) => setShippingMethods(response))
+        } catch (error) {
+            // console.log(error);
         }
     }
 
@@ -48,7 +58,7 @@ export default function ShippingForm() {
         <Box width='100%'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex width='100%'>
-                    <FormControl m={1} isInvalid={errors.firstName}>
+                    <FormControl m={2} isInvalid={errors.firstName}>
                         <FormLabel>First name</FormLabel>
                         <Input 
                             placeholder='First name'
@@ -60,7 +70,7 @@ export default function ShippingForm() {
                             })} 
                         />
                     </FormControl>
-                    <FormControl m={1} isInvalid={errors.lastName}>
+                    <FormControl m={2} isInvalid={errors.lastName}>
                         <FormLabel>Last name</FormLabel>
                         <Input 
                             placeholder='Last name'
@@ -74,7 +84,7 @@ export default function ShippingForm() {
                     </FormControl>
                 </Flex>
                 <Flex>
-                    <FormControl m={1} isInvalid={errors.email}>
+                    <FormControl m={2} isInvalid={errors.email}>
                         <FormLabel>Email address</FormLabel>
                         <Input 
                             placeholder='yourname@email.com'
@@ -88,7 +98,7 @@ export default function ShippingForm() {
                     </FormControl>
                 </Flex>
                 <Flex>
-                    <FormControl m={1} isInvalid={errors.country} onChange={(e) => handleCountryChange(e)}>
+                    <FormControl m={2} isInvalid={errors.country} onChange={(e) => handleCountryChange(e)}>
                         <FormLabel>Country</FormLabel>
                         <Select 
                             placeholder='Country'
@@ -104,7 +114,7 @@ export default function ShippingForm() {
                     </FormControl>
                 </Flex>
                 <Flex>
-                    <FormControl m={1} isInvalid={errors.address}>
+                    <FormControl m={2} isInvalid={errors.address}>
                         <FormLabel>Address line 1</FormLabel>
                         <Input 
                             placeholder='Address line 1'
@@ -115,13 +125,13 @@ export default function ShippingForm() {
                             })} 
                         />
                     </FormControl>
-                    <FormControl m={1} isInvalid={errors.address}>
+                    <FormControl m={2} isInvalid={errors.address}>
                         <FormLabel>Address line 2</FormLabel>
                         <Input placeholder='Address line 2' id='address2' type='text' {...register('address2')} />
                     </FormControl>
                 </Flex>
-                <Flex>
-                    <FormControl m={1} isInvalid={errors.city}>
+                <Flex mb={5}>
+                    <FormControl m={2} isInvalid={errors.city}>
                         <FormLabel>City</FormLabel>
                         <Input 
                             placeholder='City'
@@ -133,7 +143,7 @@ export default function ShippingForm() {
                             })} 
                         />
                     </FormControl>
-                    <FormControl m={1} isInvalid={errors.subdivision}>
+                    <FormControl m={2} isInvalid={errors.subdivision} onChange={(e) => handleSubdivisionChange(e)}>
                         <FormLabel>State/Province</FormLabel>
                         <Select 
                             placeholder='State/Province'
@@ -145,6 +155,35 @@ export default function ShippingForm() {
                             {Object.entries(subdivisions).map(([code, name]) => ({ id: code, label: name})).map((item) => (
                                 <option key={item.id} value={item.id}>{item.label}</option>
                             ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl m={2} isInvalid={errors.zip}>
+                        <FormLabel>Postal/Zip code</FormLabel>
+                        <Input 
+                            placeholder='Postal/Zip code'
+                            id='zip' 
+                            type='text'
+                            {...register('zip', { 
+                                required: 'Your postal code is required',
+                                minLength: { value: 5, message: 'Too short!'} 
+                            })} 
+                        />
+                    </FormControl>
+                </Flex>
+                <Divider />
+                <Flex mx={2} my={5}>
+                    <FormControl isInvalid={errors.shippingMethod}>
+                        <FormLabel>Choose a shipping method</FormLabel>
+                        <Select 
+                            placeholder='Shipping method'
+                            id='shipping-method'
+                            {...register('shippingMethod', {
+                                required: 'Please choose a shipping method',
+                            })}
+                        >
+                            {shippingMethods.map((sO) => ({ id: sO.id, label: `${sO.description} - ${sO.price.formatted_with_symbol}` } )).map((item) => (
+                                <option key={item.id} value={item.id}>{item.label}</option>
+                            ))} 
                         </Select>
                     </FormControl>
                 </Flex>
