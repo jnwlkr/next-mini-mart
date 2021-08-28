@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Flex, FormControl, Input, Select, Box, FormLabel, Divider } from '@chakra-ui/react';
+import { Flex, FormControl, Input, Select, Box, FormLabel, Button } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useCheckoutState, useCheckoutDispatch } from '../../context/checkout';
 import commerce from '../../lib/commerce';
@@ -13,6 +13,7 @@ export default function ShippingForm() {
     const [shippingData, setShippingData] = useState();
     const [countries, setCountries] = useState({});
     const [country, setCountry] = useState('');
+    const [subdivision, setSubdivision] = useState('');
     const [subdivisions, setSubdivisions] = useState({});
     const [shippingMethods, setShippingMethods] = useState([]);
 
@@ -38,7 +39,8 @@ export default function ShippingForm() {
     const handleSubdivisionChange = async (e) => {
         try {
             const subdivision = e.target.value;
-            commerce.checkout.getShippingOptions(id, { country, subdivision }).then((response) => setShippingMethods(response))
+            commerce.checkout.getShippingOptions(id, { country, subdivision }).then((response) => setShippingMethods(response));
+            setSubdivision(subdivision);
         } catch (error) {
             // console.log(error);
         }
@@ -130,7 +132,7 @@ export default function ShippingForm() {
                         <Input placeholder='Address line 2' id='address2' type='text' {...register('address2')} />
                     </FormControl>
                 </Flex>
-                <Flex mb={5}>
+                <Flex>
                     <FormControl m={2} isInvalid={errors.city}>
                         <FormLabel>City</FormLabel>
                         <Input 
@@ -170,9 +172,8 @@ export default function ShippingForm() {
                         />
                     </FormControl>
                 </Flex>
-                <Divider />
-                <Flex mx={2} my={5}>
-                    <FormControl isInvalid={errors.shippingMethod}>
+                <Flex m={2}>
+                    <FormControl isInvalid={errors.shippingMethod} onChange={(e) => setShippingMethod(e.target.value, country, subdivision)}>
                         <FormLabel>Choose a shipping method</FormLabel>
                         <Select 
                             placeholder='Shipping method'
@@ -187,7 +188,7 @@ export default function ShippingForm() {
                         </Select>
                     </FormControl>
                 </Flex>
-
+                <Button m={2} isFullWidth>Continue to payment</Button>
             </form>
         </Box>
     )
