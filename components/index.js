@@ -9,3 +9,5 @@ export {default as CheckoutForm} from './Checkout/CheckoutForm';
 export {default as PaymentForm} from './Checkout/PaymentForm';
 export {default as Confirmation} from './Checkout/Confirmation';
 export {default as CheckoutNavbar} from './Checkout2/CheckoutNavbar';
+export {default as Form} from './Checkout2/CheckoutForm';
+export {default as OrderSummary} from './Checkout2/OrderSummary';
