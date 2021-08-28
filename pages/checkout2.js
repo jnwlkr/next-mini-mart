@@ -46,8 +46,9 @@ export default function Checkout2() {
                         </TabPanels>
                     </Tabs>
                 </Box>
-                <Flex width={{base: '100%', md: '40%'}}>
+                <Flex direction='column' align='center' width={{base: '100%', md: '40%'}}>
                     <OrderSummary />
+                    <Button isFullWidth boxShadow='lg' p={5} ml={{base: 0, md: 5}}>Complete order</Button>
                 </Flex>
                 
             </Flex>
