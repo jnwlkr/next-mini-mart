@@ -1,4 +1,5 @@
-import { Flex, FormControl, Input, Select } from '@chakra-ui/react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Flex, FormControl, Input, Select, Box, FormLabel } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { useCheckoutState, useCheckoutDispatch } from '../../context/checkout';
 import commerce from '../../lib/commerce';
@@ -9,15 +10,146 @@ export default function ShippingForm() {
     const { setShippingMethod } = useCheckoutDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data) // shippingData
+    const [shippingData, setShippingData] = useState();
+    const [country, setCountry] = useState('');
+    const [countries, setCountries] = useState({});
+    const [subdivisions, setSubdivisions] = useState({});
+    const [shippingMethods, setShippingMethods] = useState({});
+
+    const getCountries = async (checkoutTokenId) => {
+        try {
+            const { countries } = await commerce.services.localeListShippingCountries(checkoutTokenId);
+            setCountries(countries);
+        } catch (error) {
+            // console.log(error)
+        }
+    };
+
+    const handleCountryChange = async (e) => {
+        try {
+            const { subdivisions } = await commerce.services.localeListSubdivisions(e.target.value);
+            setSubdivisions(subdivisions);
+        } catch (error) {
+            // console.log(error)
+        }
     }
 
+    const onSubmit = (data) => {
+        setShippingData(data);
+        console.log(data) // shippingData
+    };
+
+    useEffect(() => {
+        getCountries(id);
+    }, []);
+
+
     return (
-        <Flex>
+        <Box width='100%'>
             <form onSubmit={handleSubmit(onSubmit)}>
+                <Flex width='100%'>
+                    <FormControl m={1} isInvalid={errors.firstName}>
+                        <FormLabel>First name</FormLabel>
+                        <Input 
+                            placeholder='First name'
+                            id='first-name' 
+                            type='text'
+                            {...register('firstName', { 
+                                required: 'Your name is required',
+                                minLength: { value: 2, message: 'Too short!'} 
+                            })} 
+                        />
+                    </FormControl>
+                    <FormControl m={1} isInvalid={errors.lastName}>
+                        <FormLabel>Last name</FormLabel>
+                        <Input 
+                            placeholder='Last name'
+                            id='last-name' 
+                            type='text'
+                            {...register('lastName', { 
+                                required: 'Your name is required',
+                                minLength: { value: 2, message: 'Too short!'} 
+                            })} 
+                        />
+                    </FormControl>
+                </Flex>
+                <Flex>
+                    <FormControl m={1} isInvalid={errors.email}>
+                        <FormLabel>Email address</FormLabel>
+                        <Input 
+                            placeholder='yourname@email.com'
+                            id='email' 
+                            type='email'
+                            {...register('email', { 
+                                required: 'Your email address is required',
+                                minLength: { value: 2, message: 'Too short!'} 
+                            })} 
+                        />
+                    </FormControl>
+                </Flex>
+                <Flex>
+                    <FormControl m={1} isInvalid={errors.country} onChange={(e) => handleCountryChange(e)}>
+                        <FormLabel>Country</FormLabel>
+                        <Select 
+                            placeholder='Country'
+                            id='country'
+                            {...register('country', {
+                                required: 'Please choose a country',
+                            })}
+                        >
+                            {Object.entries(countries).map(([code, name]) => ({ id: code, label: name})).map((item) => (
+                                <option key={item.id} value={item.id}>{item.label}</option>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Flex>
+                <Flex>
+                    <FormControl m={1} isInvalid={errors.address}>
+                        <FormLabel>Address line 1</FormLabel>
+                        <Input 
+                            placeholder='Address line 1'
+                            id='address1' 
+                            type='text'
+                            {...register('address1', { 
+                                required: 'Your address is required',
+                            })} 
+                        />
+                    </FormControl>
+                    <FormControl m={1} isInvalid={errors.address}>
+                        <FormLabel>Address line 2</FormLabel>
+                        <Input placeholder='Address line 2' id='address2' type='text' {...register('address2')} />
+                    </FormControl>
+                </Flex>
+                <Flex>
+                    <FormControl m={1} isInvalid={errors.city}>
+                        <FormLabel>City</FormLabel>
+                        <Input 
+                            placeholder='City'
+                            id='city' 
+                            type='text'
+                            {...register('city', { 
+                                required: 'Your city is required',
+                                minLength: { value: 3, message: 'Too short!'} 
+                            })} 
+                        />
+                    </FormControl>
+                    <FormControl m={1} isInvalid={errors.subdivision}>
+                        <FormLabel>State/Province</FormLabel>
+                        <Select 
+                            placeholder='State/Province'
+                            id='state'
+                            {...register('state', {
+                                required: 'Please choose a state',
+                            })}
+                        >
+                            {Object.entries(subdivisions).map(([code, name]) => ({ id: code, label: name})).map((item) => (
+                                <option key={item.id} value={item.id}>{item.label}</option>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Flex>
 
             </form>
-        </Flex>
+        </Box>
     )
 }

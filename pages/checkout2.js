@@ -37,7 +37,7 @@ export default function Checkout2() {
                             <Tab>2. Billing</Tab>
                         </TabList>
                         <TabPanels>
-                            <TabPanel>
+                            <TabPanel w='100%'>
                                 <Shipping />
                             </TabPanel>
                             <TabPanel>
