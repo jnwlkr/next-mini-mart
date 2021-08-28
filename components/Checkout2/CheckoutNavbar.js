@@ -1,38 +1,32 @@
-import { Flex, Box, Text, IconButton } from '@chakra-ui/react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Flex, Box, Text, IconButton } from '@chakra-ui/react';
 
 export default function CheckoutNavbar() {
     const router = useRouter();
 
     return (
         <Flex 
+            px={3}
             w='100%' 
-            h='64px'  
+            h='64px'
+            opacity='0.8'  
             boxShadow='xs' 
-            opacity='0.8'
             alignItems='center'
             justifyContent='space-between'
-            px={3}
         >
             <Flex>
-                <IconButton variant='ghost' icon={<ArrowBackIcon />} onClick={() => router.push('/cart')} size='lg' />
+                <IconButton 
+                    size='lg'
+                    variant='ghost' 
+                    icon={<ArrowBackIcon />} 
+                    onClick={() => router.push('/cart')} 
+                />
             </Flex>
-
-            <Text 
-                fontSize={24} 
-                fontWeight={700} 
-                fontStyle='italic'
-                color='black'
-            >
-                <Link href='/'>
-                    minimart checkout
-                </Link>
-            </Text>
-
+            <Flex fontSize={24} fontWeight={700} fontStyle='italic' color='black'>
+                minimart <Text ml={2} fontWeight={300}>checkout</Text>
+            </Flex>
             <Box />
-
         </Flex>
     )
 }
