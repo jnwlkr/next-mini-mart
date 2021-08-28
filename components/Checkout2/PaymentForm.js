@@ -1,10 +1,10 @@
 import { Flex } from '@chakra-ui/react';
 
-export default function ShippingForm() {
+export default function PaymentForm() {
 
     return (
         <Flex>
-            ShippingForm
+            PaymentForm
         </Flex>
     )
 }

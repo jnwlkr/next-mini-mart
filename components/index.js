@@ -11,3 +11,5 @@ export {default as Confirmation} from './Checkout/Confirmation';
 export {default as CheckoutNavbar} from './Checkout2/CheckoutNavbar';
 export {default as Form} from './Checkout2/CheckoutForm';
 export {default as OrderSummary} from './Checkout2/OrderSummary';
+export {default as Shipping} from './Checkout2/ShippingForm';
+export {default as Payment} from './Checkout2/PaymentForm';
