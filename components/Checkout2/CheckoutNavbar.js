@@ -25,7 +25,7 @@ export default function CheckoutNavbar() {
             <Flex fontSize={24} fontWeight={700} fontStyle='italic' color='black'>
                 minimart <Text ml={2} fontWeight={300}>checkout</Text>
             </Flex>
-            <Box />
+            <Flex w='24px' h='24px'/>
         </Flex>
     )
 }
