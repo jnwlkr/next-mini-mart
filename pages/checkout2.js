@@ -12,6 +12,7 @@ export default function Checkout2() {
     const { reset } = useCartDispatch();
     const { id, live } = useCheckoutState();
     const { generateToken, captureOrder, setError } = useCheckoutDispatch();
+    const [shippingData, setShippingData] = useState();
 
     useEffect(() => {
         generateToken(cartId);
@@ -38,7 +39,7 @@ export default function Checkout2() {
                         </TabList>
                         <TabPanels>
                             <TabPanel w='100%'>
-                                <Shipping />
+                                <Shipping setShippingData={setShippingData} />
                             </TabPanel>
                             <TabPanel>
                                 <Payment />

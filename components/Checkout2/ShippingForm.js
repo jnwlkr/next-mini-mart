@@ -5,12 +5,10 @@ import { useCheckoutState, useCheckoutDispatch } from '../../context/checkout';
 import commerce from '../../lib/commerce';
 import { useEffect, useState } from 'react';
 
-export default function ShippingForm() {
+export default function ShippingForm({ setShippingData }) {
     const { id } = useCheckoutState();
-    const { setShippingMethod } = useCheckoutDispatch();
+    const { setShippingMethod, setTaxZone } = useCheckoutDispatch();
     const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const [shippingData, setShippingData] = useState();
     const [countries, setCountries] = useState({});
     const [country, setCountry] = useState('');
     const [subdivision, setSubdivision] = useState('');
@@ -48,6 +46,7 @@ export default function ShippingForm() {
 
     const onSubmit = (data) => {
         setShippingData(data);
+        setTaxZone(country, subdivision, data.zip);
         console.log(data) // shippingData
     };
 
@@ -189,7 +188,7 @@ export default function ShippingForm() {
                     </FormControl>
                 </Flex>
                 <Flex>
-                    <Button m={2} mt={4} isFullWidth>Continue to payment</Button>
+                    <Button m={2} mt={4} type='submit' isFullWidth>Continue to payment</Button>
                 </Flex>
             </form>
         </Box>
