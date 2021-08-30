@@ -18,7 +18,7 @@ export default function Checkout2() {
     const { id: cartId } = useCartState();
     const { reset: resetCart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
-    
+
     const [shippingData, setShippingData] = useState();
     const [orderData, setOrderData] = useState();
     const [order, setOrder] = useState();
@@ -69,6 +69,8 @@ export default function Checkout2() {
             setOrder(order);
             resetCart();
             reset();
+            router.push('/confirmation');
+            window.sessionStorage.setItem('order_receipt', order);
         }
     }
 
@@ -77,20 +79,6 @@ export default function Checkout2() {
             <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
                 <CircularProgress isIndeterminate /> Preparing checkout...
             </Flex>
-        )
-    }
-
-    if (order) {
-        return (
-            <>
-            <CheckoutNavbar />
-            <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
-                <Text>Thanks for your purchase, {order.firstName} {order.lastName}!</Text>
-                <Text>A receipt has been sent to {order.email}.</Text>
-                <Text>Order reference: {order.ref}</Text>
-                <Button m={2} onClick={() => router.push('/')} >Back to minimart</Button>
-            </Flex>
-            </>
         )
     }
 
