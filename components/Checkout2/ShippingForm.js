@@ -146,9 +146,9 @@ export default function ShippingForm() {
                         />
                     </FormControl>
                     <FormControl m={2} isInvalid={errors.subdivision} onChange={(e) => handleSubdivisionChange(e)}>
-                        <FormLabel>State/Province</FormLabel>
+                        <FormLabel>State</FormLabel>
                         <Select 
-                            placeholder='State/Province'
+                            placeholder='State'
                             id='state'
                             {...register('state', {
                                 required: 'Please choose a state',
@@ -160,9 +160,9 @@ export default function ShippingForm() {
                         </Select>
                     </FormControl>
                     <FormControl m={2} isInvalid={errors.zip}>
-                        <FormLabel>Postal/Zip code</FormLabel>
+                        <FormLabel>Zip code</FormLabel>
                         <Input 
-                            placeholder='Postal/Zip code'
+                            placeholder='Zip code'
                             id='zip' 
                             type='text'
                             {...register('zip', { 
