@@ -70,7 +70,6 @@ export default function Checkout2() {
             resetCart();
             reset();
             router.push('/confirmation');
-            window.sessionStorage.setItem('order_receipt', order);
         }
     }
 
