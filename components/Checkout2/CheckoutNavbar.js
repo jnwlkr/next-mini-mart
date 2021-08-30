@@ -10,8 +10,7 @@ export default function CheckoutNavbar() {
             px={3}
             w='100%' 
             h='64px'
-            opacity='0.8'  
-            boxShadow='xs' 
+            opacity='0.8'
             alignItems='center'
             justifyContent='space-between'
         >

@@ -29,7 +29,7 @@ export default function Checkout2() {
     return (
         <Box>
             <CheckoutNavbar />
-            <Flex flexWrap='wrap' mx={{base: 5, md: 10}} mt={5}>
+            <Flex flexWrap='wrap' mx={{base: 5, md: 10}}>
                 <Box width={{base: '100%', md: '60%'}} bgColor='gray.50' borderRadius='md' boxShadow='xl' pt={2}>
                     <Tabs isFitted>
                         <TabList>
