@@ -188,7 +188,9 @@ export default function ShippingForm() {
                         </Select>
                     </FormControl>
                 </Flex>
-                <Button m={2} isFullWidth>Continue to payment</Button>
+                <Flex>
+                    <Button m={2} mt={4} isFullWidth>Continue to payment</Button>
+                </Flex>
             </form>
         </Box>
     )
