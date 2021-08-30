@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Flex, FormControl, Input, Select, Box, FormLabel, Button } from '@chakra-ui/react';
-import { useForm } from 'react-hook-form';
 import { useCheckoutState, useCheckoutDispatch } from '../../context/checkout';
 import commerce from '../../lib/commerce';
 import { useEffect, useState } from 'react';

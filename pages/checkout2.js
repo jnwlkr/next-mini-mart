@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import commerce from '../lib/commerce';
 import { Box, Text, Flex, Button, Tabs, Tab, TabList, TabPanel, TabPanels, CircularProgress } from '@chakra-ui/react';
 import { useCartState, useCartDispatch } from '../context/cart';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { CheckoutNavbar, Form, OrderSummary, Shipping, Payment } from '../components';
+import { CheckoutNavbar, OrderSummary, Shipping} from '../components';
 import { useCheckoutState, useCheckoutDispatch } from '../context/checkout';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';

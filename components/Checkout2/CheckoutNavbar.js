@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Flex, Box, Text, IconButton } from '@chakra-ui/react';
+import { Flex, Text, IconButton } from '@chakra-ui/react';
 
 export default function CheckoutNavbar() {
     const router = useRouter();
