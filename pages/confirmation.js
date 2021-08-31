@@ -1,11 +1,16 @@
 import { useRouter } from 'next/router';
 import { Flex, Text, Button, CircularProgress } from '@chakra-ui/react';
 import { CheckoutNavbar } from '../components';
+import { useEffect, useState } from 'react';
 
 export default function Confirmation() {
     const router = useRouter();
-    const order = JSON.parse(sessionStorage.getItem('order'));
-    console.log(order);
+    const [order, setOrder] = useState();
+
+    useEffect(() => {
+        const orderData = JSON.parse(sessionStorage.getItem('order'));
+        setOrder(orderData);
+    }, [])
 
     return (
         <>
