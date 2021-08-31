@@ -68,8 +68,8 @@ export const CheckoutProvider = ({ children }) => {
         }
     };
 
-    const captureCheckout = (orderData) => {
-        commerce.checkout.capture(state.id, orderData).then((response) => window.sessionStorage.setItem('order', JSON.stringify(response)));
+    const captureCheckout = async (orderData) => {
+        await commerce.checkout.capture(state.id, orderData).then((response) => window.sessionStorage.setItem('order', JSON.stringify(response)));
     };
 
     const setError = (payload) => {

@@ -18,8 +18,6 @@ export default function Checkout2() {
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
 
     const [shippingData, setShippingData] = useState();
-    const [orderData, setOrderData] = useState();
-    const [order, setOrder] = useState();
     const [tabIndex, setTabIndex] = useState(0);
 
     useEffect(() => {
@@ -63,11 +61,12 @@ export default function Checkout2() {
                     }
                 }
             }
-            const order = await captureCheckout(data);
-            setOrder(order);
+            
+            await captureCheckout(data);
+            router.push('/confirmation');
             resetCart();
             reset();
-            router.push('/confirmation');
+            
         }
     }
 
