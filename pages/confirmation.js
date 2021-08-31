@@ -16,7 +16,7 @@ export default function Confirmation() {
 
     if (!order) {
         return (
-            <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
+            <Flex direction='column' w='100%' h='600px' align='center' justify='center'>
                 <CircularProgress isIndeterminate /> Processing your order...
             </Flex>
         )
@@ -25,7 +25,7 @@ export default function Confirmation() {
     return (
         <>
         <CheckoutNavbar />
-        <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
+        <Flex direction='column' w='100%' h='600px' align='center' justify='center'>
                 <Text>Thanks for your purchase, {order.customer.firstname} {order.customer.lastname}!</Text>
                 <Text>A receipt has been sent to {order.customer.email}.</Text>
                 <Text>Order reference: {order.customer_reference}</Text>
