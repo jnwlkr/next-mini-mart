@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Text, Flex, Button, Tabs, Tab, TabList, TabPanel, TabPanels, CircularProgress } from '@chakra-ui/react';
-import { useCartState, useCartDispatch } from '../context/cart';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { useCartState, useCartDispatch } from '../context/cart';
 import { CheckoutNavbar, OrderSummary, Shipping} from '../components';
 import { useCheckoutState, useCheckoutDispatch } from '../context/checkout';
-import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
-import { useRouter } from 'next/router';
+import { Box, Text, Flex, Button, Tabs, Tab, TabList, TabPanel, TabPanels, CircularProgress } from '@chakra-ui/react';
 
 const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 
@@ -17,8 +17,8 @@ export default function Checkout2() {
     const { reset: resetCart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
 
-    const [shippingData, setShippingData] = useState();
     const [tabIndex, setTabIndex] = useState(0);
+    const [shippingData, setShippingData] = useState();
 
     useEffect(() => {
         generateToken(cartId);
@@ -61,14 +61,12 @@ export default function Checkout2() {
                     }
                 }
             }
-            
             await captureCheckout(data);
             router.push('/confirmation');
             resetCart();
             reset();
-            
         }
-    }
+    };
 
     if (!id) {
         return (
@@ -76,7 +74,7 @@ export default function Checkout2() {
                 <CircularProgress isIndeterminate /> Preparing checkout...
             </Flex>
         )
-    }
+    };
 
     return (
         <Box>
@@ -114,10 +112,8 @@ export default function Checkout2() {
                 </Box>
                 <Flex direction='column' align='center' width={{base: '100%', md: '40%'}}>
                     <OrderSummary />
-                    
                 </Flex>
-                
             </Flex>
         </Box>
-    )
-}
+    );
+};
