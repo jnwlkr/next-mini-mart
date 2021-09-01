@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'next/router';
-import { Flex, Text, Button, CircularProgress } from '@chakra-ui/react';
-import { CheckoutNavbar } from '../components';
 import { useEffect, useState } from 'react';
+import { CheckoutNavbar } from '../components';
+import { Flex, Text, Button, CircularProgress } from '@chakra-ui/react';
 
 export default function Confirmation() {
     const router = useRouter();
@@ -20,7 +20,7 @@ export default function Confirmation() {
                 <CircularProgress isIndeterminate /> Processing your order...
             </Flex>
         )
-    }
+    };
 
     return (
         <>
@@ -32,5 +32,5 @@ export default function Confirmation() {
                 <Button m={2} onClick={() => router.push('/')} >Back to minimart</Button>
         </Flex>
         </>
-    )
-}
+    );
+};
