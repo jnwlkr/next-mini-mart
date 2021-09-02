@@ -61,10 +61,7 @@ export default function Checkout() {
                     }
                 }
             }
-            await captureCheckout(data);
-            router.push('/confirmation');
-            resetCart();
-            reset();
+            captureCheckout(data);
         }
     };
 

@@ -1,5 +1,6 @@
 import { createContext, useReducer, useContext } from 'react';
 import commerce from '../lib/commerce';
+import { useRouter } from 'next/router';
 
 const CheckoutStateContext = createContext();
 const CheckoutDispatchContext = createContext();
@@ -7,11 +8,13 @@ const CheckoutDispatchContext = createContext();
 const SET_CHECKOUT = 'SET_CHECKOUT';
 const SET_LIVE = 'SET_LIVE';
 const SET_ERROR = 'SET_ERROR';
+const SET_ORDER = 'SET_ORDER';
 const RESET = 'RESET';
 
 const initialState = {
     error: null,
     live: {},
+    order: null,
 };
 
 const reducer = (state, action) => {
@@ -20,6 +23,8 @@ const reducer = (state, action) => {
             return { ...state, ...action.payload };
         case SET_LIVE: 
             return { ...state, live: { ...state.live, ...action.payload } };
+        case SET_ORDER: 
+            return { ...state, order: action.payload };
         case SET_ERROR:
             return { ...state, error: action.payload };
         case RESET:
@@ -30,6 +35,7 @@ const reducer = (state, action) => {
 };
 
 export const CheckoutProvider = ({ children }) => {
+    const router = useRouter();
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const generateToken = async (cartId) => {
@@ -69,7 +75,15 @@ export const CheckoutProvider = ({ children }) => {
     };
 
     const captureCheckout = async (orderData) => {
-        await commerce.checkout.capture(state.id, orderData).then((response) => window.sessionStorage.setItem('order', JSON.stringify(response)));
+        try {
+            router.push('/confirmation');
+            const order = await commerce.checkout.capture(state.id, orderData);
+            //window.sessionStorage.setItem('order', JSON.stringify(order));
+            
+            dispatch({ type: SET_ORDER, payload: order });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const setError = (payload) => {
