@@ -7,26 +7,23 @@ const CheckoutDispatchContext = createContext();
 
 const SET_CHECKOUT = 'SET_CHECKOUT';
 const SET_LIVE = 'SET_LIVE';
-const SET_ERROR = 'SET_ERROR';
 const SET_ORDER = 'SET_ORDER';
 const RESET = 'RESET';
 
 const initialState = {
-    error: null,
     live: {},
+    checkout: {},
     order: null,
 };
 
 const reducer = (state, action) => {
     switch (action.type) {
         case SET_CHECKOUT:
-            return { ...state, ...action.payload };
+            return { ...state, checkout: { ...state.checkout, ...action.payload }, live: { ...state.live, ...action.payload.live } };
         case SET_LIVE: 
             return { ...state, live: { ...state.live, ...action.payload } };
         case SET_ORDER: 
-            return { ...state, order: action.payload };
-        case SET_ERROR:
-            return { ...state, error: action.payload };
+            return { ...state, order: action.payload, checkout: initialState.checkout };
         case RESET:
             return initialState;
         default:
@@ -82,12 +79,9 @@ export const CheckoutProvider = ({ children }) => {
             
             dispatch({ type: SET_ORDER, payload: order });
         } catch (error) {
+            router.push('/cart');
             console.log(error);
         }
-    };
-
-    const setError = (payload) => {
-        dispatch({ type: SET_ERROR, payload });
     };
 
     const reset = () => {
@@ -101,7 +95,6 @@ export const CheckoutProvider = ({ children }) => {
                 setShippingMethod,
                 setTaxZone,
                 captureCheckout,
-                setError,
                 reset,
             }}
         >

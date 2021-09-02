@@ -5,7 +5,7 @@ import commerce from '../../lib/commerce';
 import { useEffect, useState } from 'react';
 
 export default function ShippingForm({ setShippingData, setTabIndex }) {
-    const { id } = useCheckoutState();
+    const { checkout } = useCheckoutState();
     const { setShippingMethod, setTaxZone } = useCheckoutDispatch();
     const [countries, setCountries] = useState({});
     const [subdivisions, setSubdivisions] = useState({});
@@ -38,7 +38,7 @@ export default function ShippingForm({ setShippingData, setTabIndex }) {
     const handleSubdivisionChange = async (e) => {
         try {
             const subdivision = e.target.value;
-            commerce.checkout.getShippingOptions(id, { country, subdivision }).then((response) => setShippingMethods(response));
+            commerce.checkout.getShippingOptions(checkout.id, { country, subdivision }).then((response) => setShippingMethods(response));
             setSubdivision(subdivision);
         } catch (error) {
             // console.log(error);
@@ -71,7 +71,7 @@ export default function ShippingForm({ setShippingData, setTabIndex }) {
     };
 
     useEffect(() => {
-        getCountries(id);
+        getCountries(checkout.id);
     }, []);
 
 

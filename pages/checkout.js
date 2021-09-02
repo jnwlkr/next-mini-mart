@@ -12,7 +12,7 @@ const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 
 export default function Checkout() {
     const router = useRouter();
-    const { id } = useCheckoutState();
+    const { checkout } = useCheckoutState();
     const { id: cartId, } = useCartState();
     const { reset: resetCart, cart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
@@ -22,8 +22,8 @@ export default function Checkout() {
 
     useEffect(() => {
         generateToken(cartId);
-        console.log(id);
-    }, [cart]);
+        console.log(checkout.id);
+    }, [cartId]);
 
     const handleSubmit = async (event, elements, stripe) => {
         event.preventDefault();
@@ -70,7 +70,7 @@ export default function Checkout() {
         }
     };
 
-    if (!id) {
+    if (!checkout.id) {
         return (
             <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
                 <CircularProgress isIndeterminate /> Preparing checkout...
