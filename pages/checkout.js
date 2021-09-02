@@ -13,8 +13,8 @@ const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 export default function Checkout() {
     const router = useRouter();
     const { id } = useCheckoutState();
-    const { id: cartId } = useCartState();
-    const { reset: resetCart } = useCartDispatch();
+    const { id: cartId, } = useCartState();
+    const { reset: resetCart, cart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
 
     const [tabIndex, setTabIndex] = useState(0);
@@ -23,7 +23,7 @@ export default function Checkout() {
     useEffect(() => {
         generateToken(cartId);
         console.log(id);
-    }, [cartId]);
+    }, [cart]);
 
     const handleSubmit = async (event, elements, stripe) => {
         event.preventDefault();

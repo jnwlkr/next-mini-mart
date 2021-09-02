@@ -95,9 +95,9 @@ export default function ShippingForm({ setShippingData, setTabIndex }) {
                     </FormControl>
                 </Flex>
                 <Flex w='100%'>
-                    <FormControl m={2} isRequired onChange={(e) => handleCountryChange(e)}>
+                    <FormControl m={2} isRequired >
                         <FormLabel>Country</FormLabel>
-                        <Select placeholder='Country' id='country' value={country}>
+                        <Select placeholder='Country' id='country' value={country} onChange={(e) => handleCountryChange(e)}>
                             {Object.entries(countries).map(([code, name]) => ({ id: code, label: name})).map((item) => (
                                 <option key={item.id} value={item.id}>{item.label}</option>
                             ))}
