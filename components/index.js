@@ -6,4 +6,3 @@ export {default as CategoryList} from './CategoryList';
 export {default as CheckoutNavbar} from './Checkout/CheckoutNavbar';
 export {default as OrderSummary} from './Checkout/OrderSummary';
 export {default as Shipping} from './Checkout/ShippingForm';
-export {default as Payment} from './Checkout/PaymentForm';
