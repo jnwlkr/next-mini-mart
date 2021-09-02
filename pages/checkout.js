@@ -61,7 +61,12 @@ export default function Checkout() {
                     }
                 }
             }
-            captureCheckout(data);
+            try {
+                captureCheckout(data);
+            } catch (error) {
+                console.log(error);
+            }
+            
         }
     };
 
