@@ -1,96 +1,119 @@
-import { Box, Flex, Text,  CircularProgress} from '@chakra-ui/react';
-import Link from 'next/link';
-import {  Review, CheckoutForm, Confirmation } from '../components';
-import { ArrowBackIcon } from '@chakra-ui/icons';
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 import { useCartState, useCartDispatch } from '../context/cart';
+import { CheckoutNavbar, OrderSummary, Shipping} from '../components';
 import { useCheckoutState, useCheckoutDispatch } from '../context/checkout';
-import commerce from '../lib/commerce';
+import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
+import { Box, Text, Flex, Button, Tabs, Tab, TabList, TabPanel, TabPanels, CircularProgress } from '@chakra-ui/react';
+
+const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 
 export default function Checkout() {
-    const { id } = useCartState();
-    const { reset } = useCartDispatch();
-    const [checkoutToken, setCheckoutToken] = useState();
+    const router = useRouter();
+    const { id } = useCheckoutState();
+    const { id: cartId } = useCartState();
+    const { reset: resetCart } = useCartDispatch();
+    const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
+
+    const [tabIndex, setTabIndex] = useState(0);
     const [shippingData, setShippingData] = useState();
-    const [orderData, setOrderData] = useState();
-    const [order, setOrder] = useState();
-    const [confirmed, setConfirmed] = useState(false);
-
-    // handleShipping
-    //  setShippingData upon button click in ShippingForm
-    //  setTaxZone
-    //  get live object
-    //  pass to Review for updated totals
-
-    const handleCheckout = async (event, checkoutTokenId, orderData) => {
-            event.preventDefault();
-            setConfirmed(true);
-            await commerce.checkout.capture(checkoutTokenId, orderData).then((response) => setOrder(response));
-            reset();
-            setCheckoutToken(null);
-            // refresh cart
-            // Confirmation
-        }
-
-    const update = async (data) => {
-        setShippingData(data);
-        await commerce.checkout.setTaxZone(checkoutToken.id, { country: data.country, region: data.subdivision, postal_zip_code: data.zip});
-        console.log(data); //works
-    }
 
     useEffect(() => {
-        try {
-            commerce.checkout.generateToken(id, {type: 'cart'}).then((checkout) => setCheckoutToken(checkout));
-        } catch (error) {
-            console.log('lol')
+        generateToken(cartId);
+        console.log(id);
+    }, [cartId]);
+
+    const handleSubmit = async (event, elements, stripe) => {
+        event.preventDefault();
+
+        if (!stripe || !elements) return;
+
+        const cardElement = elements.getElement(CardElement);
+        const { error, paymentMethod } = await stripe.createPaymentMethod({ type: 'card', card: cardElement });
+
+        if (error) {
+            console.log(error);
+        } else {
+            const data = {
+                customer: {
+                    firstname: shippingData.firstName,
+                    lastname: shippingData.lastName,
+                    email: shippingData.email,
+                },
+                shipping: {
+                    name: shippingData.firstName + ' ' + shippingData.lastName,
+                    street: shippingData.address1,
+                    street_2: shippingData.address2,
+                    town_city: shippingData.city,
+                    county_state: shippingData.subdivision,
+                    postal_zip_code: shippingData.zip,
+                    country: shippingData.country,
+                }, 
+                fulfillment: {
+                    shipping_method: shippingData.shippingMethod,
+                },
+                payment: {
+                    gateway: 'stripe',
+                    stripe: {
+                        payment_method_id: paymentMethod.id
+                    }
+                }
+            }
+            await captureCheckout(data);
+            router.push('/confirmation');
+            resetCart();
+            reset();
         }
-        console.log(checkoutToken)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+    };
+
+    if (!id) {
+        return (
+            <Flex direction='column' w='100hw' h='100vh' align='center' justify='center'>
+                <CircularProgress isIndeterminate /> Preparing checkout...
+            </Flex>
+        )
+    };
 
     return (
         <Box>
-            {/* Header & back to cart */}
-            <Flex 
-                w='100%' 
-                h='64px' 
-                align='center'
-                justify='center' 
-                boxShadow='xs' 
-                opacity='0.8'
-                px={{base: 5, md: 10}}
-                fontSize={20}
-                fontWeight={300}
-            >
-                
-                <Text fontSize={24} fontWeight={700} fontStyle='italic'color='black' mr={2}>minimart checkout</Text>
-            </Flex>
-            {/* Contents */}
-            {!checkoutToken && !confirmed || !order && !!confirmed ? (
-                <Flex alignItems='center' justifyContent='center' height='400px'>
-                    <CircularProgress isIndeterminate />
+            <CheckoutNavbar />
+            <Flex flexWrap='wrap' mx={{base: 5, md: 10}}>
+                <Box width={{base: '100%', md: '60%'}} bgColor='gray.50' borderRadius='md' boxShadow='xl' pt={2}>
+                    <Tabs isFitted index={tabIndex}>
+                        <TabList>
+                            <Tab onClick={() => setTabIndex(0)}>1. Shipping</Tab>
+                            <Tab onClick={() => setTabIndex(1)}>2. Billing</Tab>
+                        </TabList>
+                        <TabPanels>
+                            <TabPanel w='100%' onClick={() => setTabIndex(0)}>
+                                <Shipping setShippingData={setShippingData} setTabIndex={setTabIndex} />
+                            </TabPanel>
+                            <TabPanel>
+                                <Box>
+                                    <Text fontWeight={500} mb={5}>Enter your payment information</Text>
+                                    <Elements stripe={stripePromise}>
+                                        <ElementsConsumer>
+                                            {({ elements, stripe }) => (
+                                                <form onSubmit={(e) => handleSubmit(e, elements, stripe)}>
+                                                    <Box p={5} mb={5} borderRadius='md' boxShadow='base'>
+                                                        <CardElement />
+                                                    </Box>
+                                                    <Button isFullWidth boxShadow='lg' type='submit' >Complete order</Button>
+                                                </form>
+                                            )}
+                                        </ElementsConsumer>
+                                    </Elements>
+                                </Box>
+                            </TabPanel>
+                        </TabPanels>
+                    </Tabs>
+                </Box>
+                <Flex direction='column' align='center' width={{base: '100%', md: '40%'}}>
+                    <OrderSummary />
                 </Flex>
-            ) : !!order && !!confirmed ? (
-                <Flex>
-                <Confirmation order={order} />
-                </Flex>
-            ) : (
-            <>
-            <Flex px={5} pt={5}>
-            <Link href='/cart'>
-                <a>
-                    <ArrowBackIcon w={7} h={7} /> Back to cart
-                </a>
-            </Link>
             </Flex>
-            <Flex m={{base: 5, md: 10}} flexWrap='wrap'>
-                {/* Forms: minWidth={{base: '100%', md: '70%'}} */}
-                <CheckoutForm checkoutToken={checkoutToken} update={update} setOrderData={setOrderData} />
-                {/* Review & Checkout button: minWidth={{base: '100%', md: '30%'}} */}
-                <Review checkoutToken={checkoutToken.id} orderData={orderData} handleCheckout={handleCheckout} />
-            </Flex>
-            </>
-            )}
         </Box>
-    )
-}
+    );
+};

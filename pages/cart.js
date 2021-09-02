@@ -119,7 +119,7 @@ export default function CartPage() {
                                     <Text fontWeight='semibold'>{subtotal.formatted_with_symbol}</Text>
                                 </Flex>
                             </Box>
-                            <Link href='/checkout2'>
+                            <Link href='/checkout'>
                                 <a>
                                     <Button isFullWidth mb={5} >Checkout</Button>
                                 </a>
