@@ -19,7 +19,7 @@ const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case SET_CHECKOUT:
-            return { ...state, checkout: { ...state.checkout, ...action.payload }, live: { ...state.live, ...action.payload.live } };
+            return { ...state, checkout: { ...state.checkout, ...action.payload }, live: { ...state.live, ...action.payload.live }, order: initialState.order };
         case SET_LIVE: 
             return { ...state, live: { ...state.live, ...action.payload } };
         case SET_ORDER: 
@@ -41,13 +41,14 @@ export const CheckoutProvider = ({ children }) => {
             const payload = await commerce.checkout.generateToken(cartId, { type: 'cart', });
             dispatch({ type: SET_CHECKOUT, payload });
         } catch (err) {
+            router.push('/products'); // change to empty cart page at some point
             console.log(err);
         }
     };
 
     const setShippingMethod = async (shipping_option_id, country, region) => {
         try {
-            const { live } = await commerce.checkout.checkShippingOption(state.id, {
+            const { live } = await commerce.checkout.checkShippingOption(state.checkout.id, {
                 shipping_option_id,
                 country,
                 ...(region && { region }),
@@ -60,7 +61,7 @@ export const CheckoutProvider = ({ children }) => {
 
     const setTaxZone = async (country, region, postal_zip_code) => {
         try {
-            const { live } = await commerce.checkout.setTaxZone(state.id, {
+            const { live } = await commerce.checkout.setTaxZone(state.checkout.id, {
                 country,
                 ...(region && { region }),
                 postal_zip_code,
@@ -74,7 +75,7 @@ export const CheckoutProvider = ({ children }) => {
     const captureCheckout = async (orderData) => {
         try {
             router.push('/confirmation');
-            const order = await commerce.checkout.capture(state.id, orderData);
+            const order = await commerce.checkout.capture(state.checkout.id, orderData);
             //window.sessionStorage.setItem('order', JSON.stringify(order));
             
             dispatch({ type: SET_ORDER, payload: order });

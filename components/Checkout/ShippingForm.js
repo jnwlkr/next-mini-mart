@@ -133,7 +133,7 @@ export default function ShippingForm({ setShippingData, setTabIndex }) {
                     </FormControl>
                 </Flex>
                 <Flex m={2}>
-                    <FormControl isRequired onChange={(e) => setShippingMethod(e.target.value, country, subdivision)}>
+                    <FormControl isRequired>
                         <FormLabel>Choose a shipping method</FormLabel>
                         <Select placeholder='Shipping method' id='shipping-method' value={shipping} onChange={(e) => handleShippingChange(e)}>
                             {shippingMethods.map((sO) => ({ id: sO.id, label: `${sO.description} - ${sO.price.formatted_with_symbol}` } )).map((item) => (

@@ -13,7 +13,7 @@ const stripePromise = loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_API_KEY}`);
 export default function Checkout() {
     const router = useRouter();
     const { checkout } = useCheckoutState();
-    const { id: cartId, } = useCartState();
+    const { id: cartId, total_items: cartItems } = useCartState();
     const { reset: resetCart, cart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
 
@@ -21,8 +21,13 @@ export default function Checkout() {
     const [shippingData, setShippingData] = useState();
 
     useEffect(() => {
-        generateToken(cartId);
-        console.log(checkout.id);
+        if (cartId && cartItems === 0) {
+            router.push('/products');
+        } else {
+            generateToken(cartId);
+            console.log(checkout.id);
+        }
+        
     }, [cartId]);
 
     const handleSubmit = async (event, elements, stripe) => {
@@ -77,6 +82,8 @@ export default function Checkout() {
             </Flex>
         )
     };
+    
+    
 
     return (
         <Box>
