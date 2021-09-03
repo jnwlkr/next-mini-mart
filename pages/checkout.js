@@ -14,7 +14,6 @@ export default function Checkout() {
     const router = useRouter();
     const { checkout } = useCheckoutState();
     const { id: cartId, total_items: cartItems } = useCartState();
-    const { reset: resetCart, cart } = useCartDispatch();
     const { generateToken, captureCheckout, reset } = useCheckoutDispatch();
 
     const [tabIndex, setTabIndex] = useState(0);

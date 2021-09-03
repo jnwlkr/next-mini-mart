@@ -76,8 +76,6 @@ export const CheckoutProvider = ({ children }) => {
         try {
             router.push('/confirmation');
             const order = await commerce.checkout.capture(state.checkout.id, orderData);
-            //window.sessionStorage.setItem('order', JSON.stringify(order));
-            
             dispatch({ type: SET_ORDER, payload: order });
         } catch (error) {
             router.push('/cart');

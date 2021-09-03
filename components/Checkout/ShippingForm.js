@@ -35,7 +35,7 @@ export default function ShippingForm({ setShippingData, setTabIndex }) {
         commerce.services.localeListSubdivisions(e.target.value).then((subdivisions) => setSubdivisions(subdivisions.subdivisions));
     };
 
-    const handleSubdivisionChange = async (e) => {
+    const handleSubdivisionChange = (e) => {
         try {
             const subdivision = e.target.value;
             commerce.checkout.getShippingOptions(checkout.id, { country, subdivision }).then((response) => setShippingMethods(response));
