@@ -2,8 +2,27 @@ import { useRouter } from 'next/router';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Flex, Text, IconButton } from '@chakra-ui/react';
 
-export default function CheckoutNavbar() {
+export default function CheckoutNavbar({ disableBack }) {
     const router = useRouter();
+
+    if (disableBack) {
+        return (
+            <Flex 
+            px={3}
+            w='100%' 
+            h='64px'
+            opacity='0.8'
+            alignItems='center'
+            justifyContent='center'
+            fontSize={24} 
+            fontWeight={700} 
+            fontStyle='italic' 
+            color='black'
+        >
+                minimart <Text ml={2} fontWeight={300}>checkout</Text>
+        </Flex>
+        )
+    }
 
     return (
         <Flex 

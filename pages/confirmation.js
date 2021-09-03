@@ -27,7 +27,7 @@ export default function Confirmation() {
 
     return (
         <>
-        <CheckoutNavbar />
+        <CheckoutNavbar disableBack />
         <Flex direction='column' w='100%' h='600px' align='center' justify='center'>
                 <Text>Thanks for your purchase, {order.customer.firstname} {order.customer.lastname}!</Text>
                 <Text>A receipt has been sent to {order.customer.email}.</Text>
